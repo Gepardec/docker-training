@@ -1,5 +1,16 @@
 # Docker training
 
+## Docker info
+
+```
+$ docker info
+```
+
+More info about engine and client
+```
+$ docker version
+```
+
 ## Run, Start, Stop...
 
 ```
