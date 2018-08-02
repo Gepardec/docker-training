@@ -39,6 +39,18 @@ $ docker image tag alpine localhost:5000/myalpine:custom
 $ docker push localhost:5000/myalpine:custom
 ```
 
+Remove local images and containers using the images
+```
+$ docker image rm -f alpine
+$ docker image rm -f localhost:5000/myalpine:custom
+```
+
+Pull the new image from local registry
+```
+$ docker pull localhost:5000/myalpine:custom
+$ docker run --rm localhost:5000/myalpine:custom ls -l
+```
+
 ### Commit and push an image
 Start a simple container
 ```
