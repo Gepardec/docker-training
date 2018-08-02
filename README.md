@@ -1,3 +1,5 @@
+# Docker training
+
 ## Run, Start, Stop...
 
 ```
@@ -22,12 +24,54 @@ You need to attach an interactive tty in the container with the `-it` flags.
 $ docker run -it alpine /bin/sh
 ```
 
+## Docker Registry
+
+### Run a registry
+
+```
+$ docker run -d -p 5000:5000 --rm --name registry registry:2
+```
+
+### Tag and push an image
+```
+$ docker pull alpine
+$ docker image tag alpine localhost:5000/myalpine:custom
+$ docker push localhost:5000/myalpine:custom
+```
+
+### Commit and push an image
+Start a simple container
+```
+$ docker run --name myalpine -it localhost:5000/myalpine:custom /bin/sh
+```
+
+Make some changes inside the container
+```
+$ cd
+$ touch file.txt
+```
+
+Commit and push the container
+```
+$ docker commit myalpine localhost:5000/myalpine:file
+$ docker run --rm localhost:5000/myalpine:file ls -l /root
+```
+
+Commit a container with new `CMD`
+```
+$ docker commit --change='CMD ["ls", "-l", "/root"]' myalpine localhost:5000/myalpine:cmd
+$ docker run --rm localhost:5000/myalpine:cmd
+```
+
+## Network
+
 Let's start something more interesting.
 ```
 $ docker run --name mariadb -p 3306:3306 -e MYSQL_ROOT_PASSWORD=super-secret-pw -e MYSQL_DATABASE=todo -e MYSQL_USER=todo -e MYSQL_PASSWORD=todo --rm -d mariadb
 ```
 
-## Network
+How to connect other containers?
+
 ```
 $ docker network create example
 $ docker network connect --alias db example mariadb
