@@ -86,6 +86,12 @@ $ docker commit --change='CMD ["ls", "-l", "/root"]' myalpine localhost:5000/mya
 $ docker run --rm localhost:5000/myalpine:cmd
 ```
 
+### Inspect image history
+
+```
+$ docker history localhost:5000/myalpine:file
+```
+
 ## Network
 
 Let's start something more interesting.
