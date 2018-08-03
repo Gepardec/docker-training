@@ -1,5 +1,11 @@
 # Docker training
 
+## Checkout this project
+
+```
+$ git clone --recurse-submodules https://github.com/Gepardec/docker-training.git
+```
+
 ## Docker info
 
 ```
