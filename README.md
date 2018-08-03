@@ -179,3 +179,17 @@ $ docker-compose up -d
 $ docker-compose logs -f web
 $ docker-compose down
 ```
+
+## Dockerfile
+
+```
+$ docker build -t todo .
+```
+
+Crate new docker-compose-stage.yml with your `todo` image und start it.
+
+```
+$ docker-compose -f docker-compose-stage.yml up
+```
+
+Can you connect your new instance with `nginx-proxy` from `docker-compose.yml` file?
