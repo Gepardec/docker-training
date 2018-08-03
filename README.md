@@ -1,5 +1,7 @@
 # Docker training
 
+Important information for Windows users. Some commands to not run natively under Windows. In those cases I have provided a working windows alternative. However, it is important that those commands are executed from within a PowerShell and not cmd. 
+
 ## Checkout this project
 
 ```
@@ -118,7 +120,7 @@ Inspect containers default aliases.
 
 ## Volumes
 Why volumes?
-* Selinux: chcon -Rt svirt_sandbox_file_t /my/own/datadir 
+* SElinux: chcon -Rt svirt_sandbox_file_t /my/own/datadir 
 * Filesystem UserId/GroupId
 
 
@@ -151,6 +153,12 @@ $ docker run -v db-vol2:/dbdata -v $(pwd):/backup alpine sh -c "cd /dbdata && ta
 $ docker run --name mariadb  -v db-vol2:/var/lib/mysql --network example --net-alias db --rm -d mariadb
 ```
 
+For Windows Hosts:
+
+```
+$ docker run -v db-vol2:/dbdata -v $(pwd):/backup alpine sh -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
+```
+
 Docker volumes are not deleted with container. You muss clean up yourself.
 ```
 $ docker volume rm my-vol
@@ -165,6 +173,11 @@ $ docker volume prune
 $ docker network prune
 ```
 
+For windows hosts: 
+```
+$ docker kill (docker ps -q)
+```
+
 or delete everything
 
 ```
@@ -174,7 +187,7 @@ $ docker system prune
 
 ## Docker-compose
 
-Only windows users - important does only work with PowerShell and needs to be executed before running the docker-compose command in the same shell. 
+Only windows users
 ```
 $ $Env:COMPOSE_CONVERT_WINDOWS_PATHS=1
 ```
