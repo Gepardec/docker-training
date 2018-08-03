@@ -174,6 +174,13 @@ $ docker system prune
 
 ## Docker-compose
 
+Only windows users
+```
+$ $Env:COMPOSE_CONVERT_WINDOWS_PATHS=1
+```
+
+Run example app
+
 ```
 $ docker-compose up -d
 $ docker-compose logs -f web
@@ -186,7 +193,7 @@ $ docker-compose down
 $ docker build -t todo .
 ```
 
-Crate new stage/docker-compose.yml with your `todo` image und start it.
+Create new stage/docker-compose.yml with your `todo` image und start it.
 
 ```
 $ docker-compose -f stage/docker-compose.yml up
