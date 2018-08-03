@@ -174,7 +174,7 @@ $ docker system prune
 
 ## Docker-compose
 
-Only windows users
+Only windows users - important does only work with PowerShell and needs to be executed before running the docker-compose command in the same shell. 
 ```
 $ $Env:COMPOSE_CONVERT_WINDOWS_PATHS=1
 ```
