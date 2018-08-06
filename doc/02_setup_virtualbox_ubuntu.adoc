@@ -39,21 +39,8 @@ This section describes how to configure the newly imported appliance network. Th
   image:./images/05_import-configure-network-2.png[Configure imported VM Host Only Network]
 
 ## Access the VM
-The Guest can be accessed either via Virtualbox Window or via the Host command line. +
-The following users are available on the VM.
+The Guest can be accessed either via Virtualbox directly or via the Host command line.
 
-.Available users
-[options="header"]
-|==========================
-|      Username|Password|SSh enabled
-|docker|docker|yes
-|root|root|no
-|==========================
-
-The Ubuntu VM has been configured to use a static IP which is **192.168.56.101**. The following commands shows ho to
-ssh into the VM via the command line.
-
-[source,bash]
-----
-$ ssh docker@192.168.56.101
-----
+**Host:** 192.168.56.101 +
+**User:** docker +
+**Password:** docker
