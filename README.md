@@ -210,3 +210,7 @@ $ docker-compose -f stage/docker-compose.yml up
 ```
 
 Can you connect your new instance with `nginx-proxy` from `docker-compose.yml` file?
+
+### Broken Docker CLI 
+
+Your Docker CLI is broken. How can you send commands to Docker Engine?
