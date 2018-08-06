@@ -193,6 +193,16 @@ $ docker-compose down
 $ docker build -t todo .
 ```
 
+## Exercises
+
+### Change todo list name
+
+Todo app accept `todo.owner` system-property to change todo list owner name. Pass it to as a command line argument.
+
+> In java you pass system-property as `-Dname=value` command line argument.
+
+### Link multiple docker-compose files
+
 Create new stage/docker-compose.yml with your `todo` image und start it.
 
 ```
