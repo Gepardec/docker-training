@@ -1,0 +1,20 @@
+Vagrant.require_version ">= 2.0.2"
+
+Vagrant.configure(2) do |config|
+
+  # vm settings
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.define "docker-host"
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 2048
+    v.cpus = 2
+  end
+
+  # ssh settings
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
+  config.ssh.insert_key = true
+  config.ssh.private_key_path = '~/.ssh/id_rsa'
+
+  config.vm.provision :shell, path: "./setup.sh", privileged: "yes"
+end
