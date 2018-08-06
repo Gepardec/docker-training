@@ -14,6 +14,8 @@ Follow the appropriate link for or OS, to see how to install and setup Docker.
 Some commands to not run natively under Windows. In those cases I have provided a working windows alternative. However, it is important that those commands are executed from within a PowerShell and not cmd.
 ===============================
 
+* link:./doc/02_setup_virtualbox_ubuntu.adoc[Virtualbox Ubuntu VM]
+
 ## Checkout this project
 
 [source,bash]
