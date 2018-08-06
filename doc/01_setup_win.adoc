@@ -48,7 +48,13 @@ This section describes the setup of the Windows WSL environment, so that Docker 
 . Open a Powershell, execute ``bash`` and setup the Linux user
 . Execute ``sudo apt-get install -y docker.io docker-compose`` to install Docker and Docker Compose.
 . Add ``export DOCKER_HOST=tcp://127.0.0.1:2375`` to ``~/.bashrc`` of your Linux user to point to Windows Docker-Daemon. +
-  __Don't use **localhost** because this points to WSL localhost and not Windows localhost__
+
+.Windows localhost is not WSL localhost
+[CAUTION]
+===============================
+If localhost is used within the WSL, then this points to the WSL loopback interface and not the Windows Host localhost. +
+Within the WSL 127.0.0.1 must be used to access services on the Windows localhost.
+===============================
 
 Now, all docker commands are executed on the remote Docker Host, which is actually located int he HyperV-VM. Windows users can now work with Docker in a
 Linux environment the same way as Linux user do.

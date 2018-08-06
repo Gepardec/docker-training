@@ -1,11 +1,18 @@
 # Docker training
 
-Important information for Windows users. Some commands to not run natively under Windows. In those cases I have provided a working windows alternative. However, it is important that those commands are executed from within a PowerShell and not cmd.
+This repository holds the sources for our base docker training, which is meant to introduce Docker and Docker Compose to
+software developers.
 
 ## Setup
 Follow the appropriate link for or OS, to see how to install and setup Docker.
 
-* link:./doc/01_setup_win.adoc[Docker on Windows Host with Windows-Subystem-Linux (WSL)]
+* link:./doc/01_setup_win.adoc[Docker on Windows Host with Windows-Subystem-Linux]
+
+.Windows users
+[IMPORTANT]
+===============================
+Some commands to not run natively under Windows. In those cases I have provided a working windows alternative. However, it is important that those commands are executed from within a PowerShell and not cmd.
+===============================
 
 ## Checkout this project
 
