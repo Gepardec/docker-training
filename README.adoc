@@ -1,0 +1,251 @@
+# Docker training
+
+Important information for Windows users. Some commands to not run natively under Windows. In those cases I have provided a working windows alternative. However, it is important that those commands are executed from within a PowerShell and not cmd.
+
+## Setup
+Follow the appropriate link for or OS, to see how to install and setup Docker.
+
+* link:./doc/01_setup_win.adoc[Docker on Windows Host with Windows-Subystem-Linux (WSL)]
+
+## Checkout this project
+
+[source,bash]
+----
+$ git clone --recurse-submodules https://github.com/Gepardec/docker-training.git
+----
+
+## Docker info
+
+[source,bash]
+----
+$ docker info
+----
+
+More info about engine and client
+[source,bash]
+----
+$ docker version
+----
+
+## Run, Start, Stop...
+
+[source,bash]
+----
+$ docker ps
+$ docker pull alpine
+$ docker image ls
+$ docker run alpine echo “hello from alpine”
+$ docker run alpine ls -l
+$ docker ps -a
+$ docker start CONTAINER
+$ docker container rm CONTAINER
+----
+
+Try another command.
+[source,bash]
+----
+$ docker run alpine /bin/sh
+----
+
+Not working?
+You need to attach an interactive tty in the container with the `-it` flags.
+[source,bash]
+----
+$ docker run -it alpine /bin/sh
+----
+
+## Docker Registry
+
+### Run a registry
+
+[source,bash]
+----
+$ docker run -d -p 5000:5000 --rm --name registry registry:2
+----
+
+### Tag and push an image
+[source,bash]
+----
+$ docker pull alpine
+$ docker image tag alpine localhost:5000/myalpine:custom
+$ docker push localhost:5000/myalpine:custom
+----
+
+Remove local images and containers using the images
+[source,bash]
+----
+$ docker image rm -f alpine
+$ docker image rm -f localhost:5000/myalpine:custom
+----
+
+Pull the new image from local registry
+[source,bash]
+----
+$ docker pull localhost:5000/myalpine:custom
+$ docker run --rm localhost:5000/myalpine:custom ls -l
+----
+
+### Commit and push an image
+Start a simple container
+[source,bash]
+----
+$ docker run --name myalpine -it localhost:5000/myalpine:custom /bin/sh
+----
+
+Make some changes inside the container
+[source,bash]
+----
+$ cd
+$ touch file.txt
+----
+
+Commit and push the container
+[source,bash]
+----
+$ docker commit myalpine localhost:5000/myalpine:file
+$ docker run --rm localhost:5000/myalpine:file ls -l /root
+----
+
+Commit a container with new `CMD`
+[source,bash]
+----
+$ docker commit --change='CMD ["ls", "-l", "/root"]' myalpine localhost:5000/myalpine:cmd
+$ docker run --rm localhost:5000/myalpine:cmd
+----
+
+### Inspect image history
+
+[source,bash]
+----
+$ docker history localhost:5000/myalpine:file
+----
+
+## Network
+
+Let's start something more interesting.
+[source,bash]
+----
+$ docker run --name mariadb -p 3306:3306 -e MYSQL_ROOT_PASSWORD=super-secret-pw -e MYSQL_DATABASE=todo -e MYSQL_USER=todo -e MYSQL_PASSWORD=todo --rm -d mariadb
+----
+
+How to connect other containers?
+
+[source,bash]
+----
+$ docker network create example
+$ docker network connect --alias db example mariadb
+$ docker run --rm -p 8080:8080 --network example adrianfarmadin/todo-jsf-example
+$ docker run --network example -p 8090:8080 -d adminer
+----
+
+Inspect containers default aliases.
+
+## Volumes
+Why volumes?
+* SElinux: chcon -Rt svirt_sandbox_file_t /my/own/datadir
+* Filesystem UserId/GroupId
+
+
+[source,bash]
+----
+$ docker volume create db-vol
+$ docker volume ls
+$ docker volume inspect db-vol
+----
+
+Use volume
+[source,bash]
+----
+$ docker run --name mariadb  --mount source=db-vol,target=/var/lib/mysql -e MYSQL_ROOT_PASSWORD=super-secret-pw -e MYSQL_DATABASE=todo -e MYSQL_USER=todo -e MYSQL_PASSWORD=todo --network example --net-alias db --rm -d mariadb
+----
+
+or
+[source,bash]
+----
+$ docker run --name mariadb  -v db-vol:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=super-secret-pw -e MYSQL_DATABASE=todo -e MYSQL_USER=todo -e MYSQL_PASSWORD=todo --network example --net-alias db --rm -d mariadb
+----
+
+### Backup a container
+
+[source,bash]
+----
+$ docker run --rm --volumes-from mariadb -v $(pwd):/backup alpine tar cvf /backup/backup.tar -C /var/lib/mysql .
+----
+
+Restore container from backup
+[source,bash]
+----
+$ docker volume create db-vol2
+$ docker run -v db-vol2:/dbdata -v $(pwd):/backup alpine sh -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
+$ docker run --name mariadb  -v db-vol2:/var/lib/mysql --network example --net-alias db --rm -d mariadb
+----
+
+For Windows Hosts:
+
+[source,bash]
+----
+$ docker run -v db-vol2:/dbdata -v $(pwd):/backup alpine sh -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
+----
+
+Docker volumes are not deleted with container. You muss clean up yourself.
+[source,bash]
+----
+$ docker volume rm my-vol
+----
+
+## Clean up
+
+[source,bash]
+----
+$ docker kill $(docker ps -q)
+$ docker container prune
+$ docker volume prune
+$ docker network prune
+----
+
+For windows hosts:
+[source,bash]
+----
+$ docker kill (docker ps -q)
+----
+
+or delete everything
+
+[source,bash]
+----
+$ docker system prune
+----
+
+
+## Docker-compose
+
+Only windows users
+[source,bash]
+----
+$ $Env:COMPOSE_CONVERT_WINDOWS_PATHS=1
+----
+
+Run example app
+
+[source,bash]
+----
+$ docker-compose up -d
+$ docker-compose logs -f web
+$ docker-compose down
+----
+
+## Dockerfile
+
+[source,bash]
+----
+$ docker build -t todo .
+----
+
+Create new stage/docker-compose.yml with your `todo` image und start it.
+
+[source,bash]
+----
+$ docker-compose -f stage/docker-compose.yml up
+----
+
+Can you connect your new instance with `nginx-proxy` from `docker-compose.yml` file?
