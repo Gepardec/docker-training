@@ -23,10 +23,7 @@ provided Vagrantfile.
 . Set the Host port, you want to forward the Guest port to.
 . Set the CPU/RAM you want the VM to use (Min: 1 CPU, 1 GB/RAM)
 
-[source,ruby]
-----
-pass:m[include::../vagrant/Vagrantfile[]]
-----
+include::../vagrant/Vagrantfile[]
 
 ## Use the Vagrantfile
 This section describes how to use the Vagrantfile to manage the VM.
