@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell", inline: "sudo apt-get update \
-                                        && sudo apt-get install -y python-pip git docker-compose \
+                                        && sudo apt-get install -y git docker-compose \
                                         && rm -rf /home/vagrant/docker-training \
                                         && git clone https://github.com/Gepardec/docker-training.git /home/vagrant/docker-training"
 
