@@ -46,6 +46,7 @@ This section describes how to setup __Docker for Windows__.
 This section describes the setup of the Windows WSL environment, so that Docker can be used via the WSL.
 
 . Open a Powershell, execute ``bash`` and setup the Linux user
+. Execute ``sudo apt-get update``
 . Execute ``sudo apt-get install -y docker.io docker-compose`` to install Docker and Docker Compose.
 . Add ``export DOCKER_HOST=tcp://127.0.0.1:2375`` to ``~/.bashrc`` of your Linux user to point to Windows Docker-Daemon. +
 
