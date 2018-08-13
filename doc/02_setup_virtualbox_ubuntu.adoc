@@ -3,7 +3,7 @@
 We provide a Virtualbox VM with Ubuntu Server 18.04 (Bionic), which has all necessary packages installed. The documentation was
 created on Linux, but is the same as for Windows Users, maybe the look and feel of Virtualbox is different. +
 
-The Virtualbox VM can be downloaded link:https://drive.google.com/file/d/1Z_3Ym4wWWwRboTYS59VgKKhiIRD4yPq1/view?usp=sharing[here]
+The Virtualbox VM can be downloaded link:https://drive.google.com/file/d/1Z_3Ym4wWWwRboTYS59VgKKhiIRD4yPq1/view?usp=sharing[here].
 
 
 ## Setup Network Adapter

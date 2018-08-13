@@ -1,7 +1,9 @@
 # Docker training
 
 This repository holds the sources for our base docker training, which is meant to introduce Docker and Docker Compose to
-software developers.
+software developers. +
+
+The presentations of the training are located at link:./doc/presentations[/doc/presentations].
 
 ## Setup
 Follow the appropriate link for or OS, to see how to install and setup Docker.
@@ -270,6 +272,6 @@ $ docker-compose -f stage/docker-compose.yml up
 
 Can you connect your new instance with `nginx-proxy` from `docker-compose.yml` file?
 
-### Broken Docker CLI 
+### Broken Docker CLI
 
 Your Docker CLI is broken. How can you send commands to Docker Engine?
