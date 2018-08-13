@@ -15,6 +15,7 @@ Some commands to not run natively under Windows. In those cases I have provided 
 ===============================
 
 * link:./doc/02_setup_virtualbox_ubuntu.adoc[Virtualbox Ubuntu VM]
+* link:./doc/03_setup_vagrant.adoc[Vagrant Ubuntu VM]
 
 ## Checkout this project
 
