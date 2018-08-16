@@ -53,6 +53,15 @@ $ docker start CONTAINER
 $ docker container rm CONTAINER
 ----
 
+Pull all images for this tutorial.
+[source,bash]
+----
+$ docker pull mariadb
+$ docker pull adrianfarmadin/todo-jsf-example
+$ docker pull adminer
+$ docker pull jwilder/nginx-proxy
+----
+
 Try another command.
 [source,bash]
 ----
