@@ -1,22 +1,22 @@
 Vagrant.require_version ">= 2.0.2"
-
 Vagrant.configure("2") do |config|
 
-  config.vm.provision "docker"
-
-  config.vm.define "debian-docker-host-vm"
-  config.vm.box = "ubuntu/bionic64"
-  config.vm.network "private_network", ip: "192.168.188.105"
+  config.vm.box = "dka/ubuntu-bionic64"
+  config.vm.define "docker-host"
   config.vm.network "forwarded_port", guest: 80, host: 9080
+  config.vm.post_up_message = "You can access the VM via \n\
+vagrant ssh\n\
+user: vagrant\n\
+password: vagrant\n\n\
+The training repository 'https://github.com/Gepardec/docker-training.git' has been checked out to '/home/vagrant/docker-training'"
 
   config.vm.provider :virtualbox do |vb|
-     vb.name = "debian-docker-host-vm"
+     vb.vmname = "docker-host-hyperv"
      vb.memory = 2048
      vb.cpus = 2
-     vb.customize ["modifyvm", :id, "--natdnshostresolver1","on"]
-     vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
   end
 
+  config.vm.provision "docker"
   config.vm.provision "shell", inline: "sudo apt-get update \
                                         && sudo apt-get install -y git docker-compose \
                                         && rm -rf /home/vagrant/docker-training \

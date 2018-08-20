@@ -1,11 +1,11 @@
-# Docker training
+= Docker training
 
 This repository holds the sources for our base docker training, which is meant to introduce Docker and Docker Compose to
 software developers. +
 
 The presentations of the training are located at link:./doc/presentations[/doc/presentations].
 
-## Setup
+== Setup
 Follow the appropriate link for or OS, to see how to install and setup Docker.
 
 * link:./doc/01_setup_win.adoc[Docker on Windows Host with Windows-Subystem-Linux]
@@ -19,14 +19,14 @@ Some commands to not run natively under Windows. In those cases I have provided 
 * link:./doc/02_setup_virtualbox_ubuntu.adoc[Virtualbox Ubuntu VM]
 * link:./doc/03_setup_vagrant.adoc[Vagrant Ubuntu VM]
 
-## Checkout this project
+== Checkout this project
 
 [source,bash]
 ----
 $ git clone --recurse-submodules https://github.com/Gepardec/docker-training.git
 ----
 
-## Docker info
+== Docker info
 
 [source,bash]
 ----
@@ -39,7 +39,7 @@ More info about engine and client
 $ docker version
 ----
 
-## Run, Start, Stop...
+== Run, Start, Stop...
 
 [source,bash]
 ----
@@ -66,16 +66,16 @@ You need to attach an interactive tty in the container with the `-it` flags.
 $ docker run -it alpine /bin/sh
 ----
 
-## Docker Registry
+== Docker Registry
 
-### Run a registry
+=== Run a registry
 
 [source,bash]
 ----
 $ docker run -d -p 5000:5000 --rm --name registry registry:2
 ----
 
-### Tag and push an image
+=== Tag and push an image
 [source,bash]
 ----
 $ docker pull alpine
@@ -97,7 +97,7 @@ $ docker pull localhost:5000/myalpine:custom
 $ docker run --rm localhost:5000/myalpine:custom ls -l
 ----
 
-### Commit and push an image
+=== Commit and push an image
 Start a simple container
 [source,bash]
 ----
@@ -125,14 +125,14 @@ $ docker commit --change='CMD ["ls", "-l", "/root"]' myalpine localhost:5000/mya
 $ docker run --rm localhost:5000/myalpine:cmd
 ----
 
-### Inspect image history
+=== Inspect image history
 
 [source,bash]
 ----
 $ docker history localhost:5000/myalpine:file
 ----
 
-## Network
+== Network
 
 Let's start something more interesting.
 [source,bash]
@@ -152,7 +152,7 @@ $ docker run --network example -p 8090:8080 -d adminer
 
 Inspect containers default aliases.
 
-## Volumes
+== Volumes
 Why volumes?
 * SElinux: chcon -Rt svirt_sandbox_file_t /my/own/datadir
 * Filesystem UserId/GroupId
@@ -177,7 +177,7 @@ or
 $ docker run --name mariadb  -v db-vol:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=super-secret-pw -e MYSQL_DATABASE=todo -e MYSQL_USER=todo -e MYSQL_PASSWORD=todo --network example --net-alias db --rm -d mariadb
 ----
 
-### Backup a container
+=== Backup a container
 
 [source,bash]
 ----
@@ -205,7 +205,7 @@ Docker volumes are not deleted with container. You muss clean up yourself.
 $ docker volume rm my-vol
 ----
 
-## Clean up
+== Clean up
 
 [source,bash]
 ----
@@ -229,7 +229,7 @@ $ docker system prune
 ----
 
 
-## Docker-compose
+== Docker-compose
 
 Only windows users
 [source,bash]
@@ -246,22 +246,22 @@ $ docker-compose logs -f web
 $ docker-compose down
 ----
 
-## Dockerfile
+== Dockerfile
 
 [source,bash]
 ----
 $ docker build -t todo .
 ----
 
-## Exercises
+== Exercises
 
-### Change todo list name
+=== Change todo list name
 
 Todo app accept `todo.owner` system-property to change todo list owner name. Pass it to as a command line argument.
 
 > In java you pass system-property as `-Dname=value` command line argument.
 
-### Link multiple docker-compose files
+=== Link multiple docker-compose files
 
 Create new stage/docker-compose.yml with your `todo` image und start it.
 
@@ -272,6 +272,6 @@ $ docker-compose -f stage/docker-compose.yml up
 
 Can you connect your new instance with `nginx-proxy` from `docker-compose.yml` file?
 
-### Broken Docker CLI
+=== Broken Docker CLI
 
 Your Docker CLI is broken. How can you send commands to Docker Engine?
