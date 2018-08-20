@@ -1,31 +1,79 @@
 version: '3'
 
 services:
+
+  # The reverse proxy service
   nginx-proxy:
     image: jwilder/nginx-proxy
+    restart: on-failure:5
     ports:
       - 80:80
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - frontend
+
+  # The web service
   web:
     image: adrianfarmadin/todo-jsf-example
+    healthcheck:
+      # Should use /health endpoint !!!
+      test: 'curl --fail http://localhost:8080/ || exit 1'
+      interval: 5s
+      timeout: 1s
+      retries: 10
+    restart: on-failure:5
     environment:
       - VIRTUAL_HOST=todo.127.0.0.1.xip.io
     depends_on:
-     - db
+      - db
+    networks:
+      - frontend
+      - backend
+
+  # The database admin service
+  adminer:
+    image: adminer
+    healthcheck:
+      # Should use /health endpoint !!!
+      test: 'curl --fail http://localhost:8080/ || exit 1'
+      interval: 5s
+      timeout: 1s
+      retries: 10
+    restart: on-failure:5
+    environment:
+      - VIRTUAL_HOST=adminer.127.0.0.1.xip.io
+    depends_on:
+      - db
+    networks:
+      - frontend
+      - backend
+
+  # The database service
   db:
     image: mariadb
+    healthcheck:
+      # $${...} escapes environment variables, otherwise docker-compose would replace them
+      test: '/usr/bin/mysql --user=$${MYSQL_USER} --password=$${MYSQL_PASSWORD} --execute "SELECT 1;"'
+      interval: 2s
+      timeout: 1s
+      retries: 10
+    restart: on-failure:5
     environment:
       - MYSQL_ROOT_PASSWORD=super-secret-pw
-      - MYSQL_DATABASE=todo 
+      - MYSQL_DATABASE=todo
       - MYSQL_USER=todo
       - MYSQL_PASSWORD=todo
     volumes:
       - db-vol:/var/lib/mysql
-  adminer:
-    image: adminer
-    environment:
-      - VIRTUAL_HOST=adminer.127.0.0.1.xip.io
+    networks:
+      - backend
 
+# Used volumes
 volumes:
   db-vol:
+
+# Used networks
+networks:
+  frontend:
+  backend:

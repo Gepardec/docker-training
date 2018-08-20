@@ -187,16 +187,16 @@ $ docker run --rm --volumes-from mariadb -v $(pwd):/backup alpine tar cvf /backu
 Restore container from backup
 [source,bash]
 ----
-$ docker volume create db-vol2
-$ docker run -v db-vol2:/dbdata -v $(pwd):/backup alpine sh -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
-$ docker run --name mariadb  -v db-vol2:/var/lib/mysql --network example --net-alias db --rm -d mariadb
+$ docker volume create db-vol-new
+$ docker run -v db-vol-new:/dbdata -v $(pwd):/backup alpine sh -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
+$ docker run --name mariadb-new  -v db-vol-new:/var/lib/mysql --network example --net-alias db --rm -d mariadb
 ----
 
 For Windows Hosts:
 
 [source,bash]
 ----
-$ docker run -v db-vol2:/dbdata -v $(pwd):/backup alpine sh -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
+$ docker run -v db-vol-new:/dbdata -v $(pwd):/backup alpine sh -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
 ----
 
 Docker volumes are not deleted with container. You muss clean up yourself.
