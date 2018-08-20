@@ -1,19 +1,36 @@
-Vagrant.require_version ">= 2.0.2"
+# Bug in version 2.1.2 https://github.com/hashicorp/vagrant/issues/9986
+# Fix in version 2.1.3 https://github.com/hashicorp/vagrant/pull/10000
+#
+# Powershell must be started with admin permissions
+# Install Vagrant on C: and do not change it'
+# Disable shared folders, because vagrant cannot determine hyperv vm ip address
+#
+# Tmp fix in File 'C:\Program Files (x86)\HashiCorp\Vagrant\embedded\gems\2.1.2\gems\vagrant-2.1.2\plugins\providers\hyperv\scripts\utils\VagrantVM\VagrantVM.psm1'
+##############################################
+#<#
+#	$systemACL = $acl.Access | where {$_.IdentityReference -eq "NT AUTHORITY\System" -and $_.FileSystemRights -eq "FullControl" -and $_.AccessControlType -eq "Allow" -and $_.IsInherited -eq $true}
+##>
+#	$systemACL = $acl.Access | where {$_.IdentityReference -like "*SYSTEM" -and $_.FileSystemRights -eq "FullControl" -and $_.AccessControlType -eq "Allow" -and $_.IsInherited -eq $true}
+##############################################
+
+Vagrant.require_version ">= 2.1.2"
 Vagrant.configure("2") do |config|
 
   config.vm.box = "dka/ubuntu-bionic64"
-  config.vm.define "docker-host"
+  config.vm.define "docker-host-hyperv"
   config.vm.network "forwarded_port", guest: 80, host: 9080
+  # SMB share failed, because IP could not be found of the hyperv VM, therefore disbale shared folders
+  config.vm.synced_folder '.', '/vagrant', disabled: true
   config.vm.post_up_message = "You can access the VM via \n\
 vagrant ssh\n\
 user: vagrant\n\
 password: vagrant\n\n\
 The training repository 'https://github.com/Gepardec/docker-training.git' has been checked out to '/home/vagrant/docker-training'"
 
-  config.vm.provider :virtualbox do |vb|
-     vb.vmname = "docker-host-hyperv"
-     vb.memory = 2048
-     vb.cpus = 2
+  config.vm.provider :hyperv do |hv|
+     hv.vmname = "docker-host-hyperv"
+     hv.memory = 2048
+     hv.cpus = 2
   end
 
   config.vm.provision "docker"
