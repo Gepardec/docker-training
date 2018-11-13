@@ -21,7 +21,7 @@ image:docker_on_cloud.svg[title="Docker in Cloud",caption="Docker in Cloud"]
 * Runnable on multiple platforms (Local, VM, Kubernetes, Openshift, ...)
 * Useful in development/test environments 
 
-== What if we use a VM?
+=== What if we use a VM?
 
 image:vm_isolation_example.svg[title="VM Isolation of processes",caption="VM Isolation of processes", align="center"]
 
@@ -30,7 +30,7 @@ image:vm_isolation_example.svg[title="VM Isolation of processes",caption="VM Iso
 * Overhead due to full blown OS
 * Not easy to reproduce, distribute and provision
 
-== What if we use Docker?
+=== What if we use Docker?
 
 image:docker_isolation_example.svg[title="Docker Isolation of processes",caption="Docker Isolation of processes", align="center"]
 
@@ -99,14 +99,13 @@ image:docker_artefacts.svg[title="Docker Artefacts",caption="Docker Artefacts", 
 === Docker Image
 
 [.text-left]
-[source,yaml]
+[source,bash]
 -----
 FROM library/java:8-alpine
 
 MAINTAINER Thomas Herzog <thomas.herzog@gepardec.com>
 
-LABEL name=”MyApp" \
-      run="docker run --name <NAME> -d"
+LABEL run="docker run --name <image> -d"
 
 COPY ./app.jar ./app.jar
 PORT 8080
