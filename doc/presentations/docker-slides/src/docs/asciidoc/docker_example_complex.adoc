@@ -1,4 +1,4 @@
-= Docker Example Complex
+= Docker Complex Example
 Thomas Herzog
 2018-11-09
 :author: Thomas Herzog
@@ -17,10 +17,20 @@ ifndef::sourcedir[:sourcedir: ../../main/java]
 image:docker_example_complex.svg[title="Complex example",caption="Complex example",align=center]
 
 [.text-left]
-* Manage Docker Networks 
-* Interact with Docker Registry
-* Connect Docker Containers in network
-* Backup a Docker Container
+* How to use Docker Networks 
+* How to use the Docker Registry
+* How to connect Docker Containers in a network
+* How to Backup/Restore a Docker Container
+
+=== The example
+
+* The application is a simple __todo__ application
+* The __todo__ application needs these env vars: 
+** __DB_URL__
+** __DB_USER__
+** __DB_PASSWORD__
+* The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
+* The database needs to be accessible when the __todo__ application starts
 
 == The Application Docker Image
 
@@ -38,9 +48,8 @@ CMD ...
 * Create a Dockerfile for the application
 * Define a label describing how to use the Docker image
 * Copy jar from the context in the directory ``/work``
-* Ensure that the working directory is set to ``work``
 * Define a proper start command for the application
-* Build the Docker Image
+* Build the Docker Image and tag it with __todo-app:latest__
 
 === Solution
 
@@ -52,14 +61,17 @@ include::./examples/complex/Dockerfile[]
 ----
 include::./examples/complex/commands.sh[tag=build]
 ----
+
 == The Docker Volume
 
 [source, bash]
 -----
+# Create the Docker Volume
 docker volume ...
 -----
 
 * Create the Docker Volume for the database with name __todo-db-vol__
+* This is the volume keeping the database persistent
 
 === Solution
 [source, bash]
@@ -71,6 +83,7 @@ include::./examples/complex/commands.sh[tag=volume]
 
 [source, bash]
 -----
+# Create the Docker Network
 docker network ...
 -----
 
@@ -78,6 +91,7 @@ docker network ...
 * This is the network for the database and todo application
 
 === Solution
+
 [source, bash]
 -----
 include::./examples/complex/commands.sh[tag=network]
@@ -86,16 +100,104 @@ include::./examples/complex/commands.sh[tag=network]
 == Provision Docker Containers
 
 -----
-docker container ..
+# 1. Create the Docker Containers
+docker container ...
+
+# 2. Start the Docker Containers
+docker container ...
 -----
 
-* Create the Docker Containers for __todo-app__ and __todo-db__
+* Create the Docker Containers with names __todo-app__ and __todo-db__
 * Start the __todo-db__ Docker Container and wait until its up 
 * Start the __todo-app__ Docker Container
-* Access the application via 
+* Access the application via link:http://localhost:8080[]
 
 === Solution
+
 [source, bash]
 -----
 include::./examples/complex/commands.sh[tag=provision]
+-----
+
+== Some questions?
+
+* What happens if we don't add the __todo-app__ Docker Container to the Docker Network?
+* What happens if we don't publish the port of the __todo-app__?
+* What happens if we misconfigure one of the environment variables?
+
+=== Solution
+
+* Then __todo-app__ cannot connect to the database, because no port is published
+* Then we cannot access the __todo-app__ web view, because the port 8080 is not published
+* __todo-app__ cannot start or access the database, because parameters are missing or faulty?
+
+== Backup the database
+
+[source, bash]
+-----
+# 1. Stop the Docker Containers
+docker container ...
+
+# 2. Backup the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker container ...
+-----
+
+* Create entries in the todo app
+* Perform a backup
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=backup]
+-----
+
+== Restore the database
+
+[source, bash]
+-----
+# 1. Stop the Docker Containers
+docker container ...
+
+# 2. Restore the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker container ...
+-----
+
+* Create entries in the todo app
+* Perform a restore
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=restore]
+-----
+
+== Cleanup
+[source, bash]
+-----
+# 1. Delete Delete the Docker Containers
+docker container ...
+
+# 2. Delete the Docker Image
+docker image ...
+
+# 3. Delete the Docker Network
+docker network ...
+
+# 3. Delete the Volume
+docker volume ...
+-----
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=cleanup]
 -----

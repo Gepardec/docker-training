@@ -1,4 +1,4 @@
-= Docker Example Simple
+= Docker Simple Example 
 Thomas Herzog
 2018-11-09
 :author: Thomas Herzog
@@ -17,10 +17,10 @@ ifndef::sourcedir[:sourcedir: ../../main/java]
 image:docker_example_simple.svg[title="Simple example",caption="Simple example",align=center]
 
 [.text-left]
-* Writing Dockerfiles
-* Building Docker Images
-* Manage Docker Volumes
-* Manage Docker Containers
+* How to write Dockerfiles
+* How to build Docker Images
+* How to use Docker Volumes
+* How to use Docker Containers
 
 == The Dockerfile
 
@@ -51,6 +51,7 @@ include::./examples/simple/Dockerfile[]
 
 [source, bash]
 -----
+# Build the Docker Image
 docker image ...
 -----
 
@@ -69,11 +70,9 @@ include::./examples/simple/commands.sh[tag=build]
 
 == The Docker Volume
 
-[small]
-For now, we had no persistence, therefore we need an Docker Volume
-
 [source, bash]
 -----
+# Create Docker Volumes
 docker volume ...
 -----
 
@@ -91,16 +90,20 @@ include::./examples/simple/commands.sh[tag=volume]
 
 [source, bash]
 -----
+# 1. Create the Docker Containers
+docker container ...
+
+# 2. Start the Docker Containers
+docker container ...
+
+# 3. Show the Docker Containers logs
+docker container ...
+
+# 4. Stop Docker Containers
 docker container ...
 -----
 
-* Create Docker Containers with the name __simple-1__, __simple-2__ 
-* Assign the created Docker Volumes
-* Provide the env var __PREFIX__
-* Start the Docker Containers 
-* Show the Docker Container logs 
-* Stop the Docker Containers
-* Delete the Docker Containers
+* Name Docker Containers __simple-1__, __simple-2__ 
 * See: link:https://docs.docker.com/engine/reference/commandline/container/[]
 
 === Solution
@@ -110,7 +113,7 @@ docker container ...
 include::./examples/simple/commands.sh[tag=container]
 -----
 
-== Play around
+== Some questions?
 
 * What happens if we assign the same Docker Volume to both Docker Containers with same __PREFIX__ set? +
 * What happens if we assign the same Docker Volume to both Docker Containers with different __PREFIX__ set? +

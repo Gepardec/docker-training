@@ -1,6 +1,10 @@
 .vagrant/
 *.log
 *.jar
+*.tar
+*.tar.gz
+*.zip
+*.rar
 feature/vagrant-docker
 # Directories #
 build/
