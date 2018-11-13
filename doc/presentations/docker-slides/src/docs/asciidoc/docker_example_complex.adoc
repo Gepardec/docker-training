@@ -1,0 +1,101 @@
+= Docker Example Complex
+Thomas Herzog
+2018-11-09
+:author: Thomas Herzog
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../../main/java]
+:title-slide-background-image: 70s.jpg
+:title-slide-transition: zoom
+:title-slide-transition-speed: fast
+:customcss: slides.css
+:source-highlighter: highlightjs
+
+== What do we want to learn?
+
+image:docker_example_complex.svg[title="Complex example",caption="Complex example",align=center]
+
+[.text-left]
+* Manage Docker Networks 
+* Interact with Docker Registry
+* Connect Docker Containers in network
+* Backup a Docker Container
+
+== The Application Docker Image
+
+[source,bash]
+-----
+FROM library/java:8-alpine
+MAINTAINER ...
+LABEL ...
+RUN ...
+COPY ...
+CMD ...
+-----
+
+[.text-left]
+* Create a Dockerfile for the application
+* Define a label describing how to use the Docker image
+* Copy jar from the context in the directory ``/work``
+* Ensure that the working directory is set to ``work``
+* Define a proper start command for the application
+* Build the Docker Image
+
+=== Solution
+
+[source,bash]
+----
+include::./examples/complex/Dockerfile[]
+----
+[source,bash]
+----
+include::./examples/complex/commands.sh[tag=build]
+----
+== The Docker Volume
+
+[source, bash]
+-----
+docker volume ...
+-----
+
+* Create the Docker Volume for the database with name __todo-db-vol__
+
+=== Solution
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=volume]
+-----
+
+== The Docker Network
+
+[source, bash]
+-----
+docker network ...
+-----
+
+* Create the Docker Network for database with name __todo-net__
+* This is the network for the database and todo application
+
+=== Solution
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=network]
+-----
+
+== Provision Docker Containers
+
+-----
+docker container ..
+-----
+
+* Create the Docker Containers for __todo-app__ and __todo-db__
+* Start the __todo-db__ Docker Container and wait until its up 
+* Start the __todo-app__ Docker Container
+* Access the application via 
+
+=== Solution
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=provision]
+-----
