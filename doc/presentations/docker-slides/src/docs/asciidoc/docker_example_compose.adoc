@@ -18,19 +18,18 @@ image:docker_example_complex.svg[title="Complex example",caption="Complex exampl
 
 [.text-left]
 * How to define a __docker-compose.yml__ 
-* How to use Docker Networks
-* How to connect Docker Containers in a network
+* How to use Docker Networks/Volumes
 * How to Backup/Restore a Docker Container
+* Reproducibility, running in parallel
 
 === The example
 
-* The application is a simple __todo__ application
+* The application is well known __todo__ application
 * The __todo__ application needs these env vars: 
 ** __DB_USER__, __DB_PASSWORD__
 ** __DB_URL__=jdbc:mysql://host:port/db
 * The host running the Docker Container must have internet access
 * The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
-* The database needs to be accessible when the __todo__ application starts
 
 == The Docker Volume
 
@@ -164,21 +163,88 @@ docker-compose ...
 include::./examples/compose/commands.sh[tag=restore]
 -----
 
-== Cleanup
+== Add healthchecks and restart
+
 [source, bash]
 -----
-# 1. Delete Delete the Docker Containers
-docker container ...
+# Test for healthy database
+test: ["CMD", "mysql", \
+       "--host=localhost", "--database=todo", \
+       "-utodo", "-ptodo", "-e", "Select 1"]
 
-# 2. Delete the Docker Image
-docker image ...
-
-# 3. Delete the Docker Network
-docker network ...
-
-# 3. Delete the Volume
-docker volume ...
+# Test for healthy todo-app
+test: ["CMD", "wget", \
+       "-f", "http://localhost:8080"]
 -----
+
+* The test array needs to be inline!!!!!!
+* Add an healthcheck and restart to the __todo-app__
+* Add an healthcheck and restart to the __todo-db__
+
+=== Solution todo-db
+
+[source,bash]
+----
+version: '3'
+services:
+  todo-db:
+include::./examples/compose/docker-compose-health.yml[tag=dbhealth]
+----
+
+=== Solution todo-app
+
+[source,bash]
+----
+version: '3'
+services:
+  todo-app:
+include::./examples/compose/docker-compose-health.yml[tag=apphealth]
+----
+
+== Deploy a second infrastructure
+
+* Create a second infrastructure project
+* Make modifications to run them in parallel
+* Run them in parallel
+* Backup one __todo-db__ service and restore in the other infra.
+
+=== Solution
+
+. Copy __infra-1__ to __infra-2__
+. Change __todo-app__ port to *9080* of infra-2
+. Start both infras with ``docker-compose up``
+. Perform backup on infra-1 __todo-db__
+. Perform restore on infra-2 __todo-db__
+
+
+== Extract parameters
+
+* Find out how to provide external properties
+* Extract all variables from docker-compose.yml
+* Provide properties with each values to infras
+
+
+=== Solution 
+
+[source,bash]
+----
+include::./examples/compose/infra-3/.env[]
+----
+
+[source,bash]
+----
+version: '3'
+services:
+  todo-app:
+include::./examples/compose/infra-3/docker-compose.yml[tag=param]
+----
+
+* Extract all parameters to a file names __.env__
+* Use the variables like this __$PARAM_1__ or __${PARAM_1}__
+
+== Cleanup
+
+* Clean up your workspace
 
 === Solution
 
