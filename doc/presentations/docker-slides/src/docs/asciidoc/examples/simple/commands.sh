@@ -21,7 +21,8 @@ docker volume create simple-2-vol
 docker container create \
     --name simple-1 \
     --volume simple-1-vol:/work \
-    --env PREFIX=simple-1 simple:latest
+    --env PREFIX=simple-1 \
+    simple:latest
 docker container create \
     --name simple-2 \
     --volume simple-2-vol:/work \

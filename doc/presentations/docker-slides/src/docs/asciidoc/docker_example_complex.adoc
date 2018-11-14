@@ -26,9 +26,8 @@ image:docker_example_complex.svg[title="Complex example",caption="Complex exampl
 
 * The application is a simple __todo__ application
 * The __todo__ application needs these env vars: 
-** __DB_URL__
-** __DB_USER__
-** __DB_PASSWORD__
+** __DB_URL__, __DB_USER__, __DB_PASSWORD__
+* The host running the Docker Container must have internet access
 * The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
 * The database needs to be accessible when the __todo__ application starts
 
@@ -127,7 +126,7 @@ include::./examples/complex/commands.sh[tag=provision]
 
 === Solution
 
-* Then __todo-app__ cannot connect to the database, because no port is published
+* Then __todo-app__ cannot connect to the database, because __todo-app__ is not in the network
 * Then we cannot access the __todo-app__ web view, because the port 8080 is not published
 * __todo-app__ cannot start or access the database, because parameters are missing or faulty?
 

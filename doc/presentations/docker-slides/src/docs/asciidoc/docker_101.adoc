@@ -92,7 +92,7 @@ image:docker_artefacts.svg[title="Docker Artefacts",caption="Docker Artefacts", 
 
 [.text-left]
 * **Docker Image:** The template for Docker Containers
-* **Docker Container:** An instance of an Docker Image
+* **Docker Container:** An instance of a Docker Image
 * **Docker Volumes:** Abstraction of filesystems
 * **Docker Networks:** Abstraction of networking
 
