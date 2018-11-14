@@ -8,4 +8,6 @@ LABEL name="ToDo application" \
 RUN mkdir /work
 COPY app.jar /work/app.jar
 #, "-Djava.net.preferIPv4Stack=true"
-CMD ["java", "-jar", "/work/app.jar", "java.net.preferIPv4Stack=true","-Dswarm.bind.address=0.0.0.0"]
+CMD ["java", "-jar", "/work/app.jar", \
+     "java.net.preferIPv4Stack=true", \
+     "-Dswarm.bind.address=0.0.0.0"]

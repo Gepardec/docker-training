@@ -26,7 +26,8 @@ image:docker_example_complex.svg[title="Complex example",caption="Complex exampl
 
 * The application is a simple __todo__ application
 * The __todo__ application needs these env vars: 
-** __DB_URL__, __DB_USER__, __DB_PASSWORD__
+** __DB_USER__, __DB_PASSWORD__
+** __DB_URL__=jdbc:mysql://host:port/db
 * The host running the Docker Container must have internet access
 * The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
 * The database needs to be accessible when the __todo__ application starts
@@ -70,11 +71,12 @@ version: '3'
 include::./examples/compose/docker-compose.yml[tag=network]
 ----
 
-== The todo-app service
+== The todo-db service
 
 [source,bash]
 -----
 version: '3'
+services:
 ...
 -----
 
@@ -86,5 +88,101 @@ version: '3'
 [source,bash]
 ----
 version: '3'
+services:
+include::./examples/compose/docker-compose.yml[tag=db]
+----
+
+== The todo-app service
+
+[source,bash]
+-----
+version: '3'
+services:
+...
+-----
+
+* The Docker Image shall be build by docker-compose!
+* Just reuse the Dockerfile of the complex example
+
+[.text-left]
+* Define the __todo-app__ service 
+
+=== Solution
+
+[source,bash]
+----
+version: '3'
+services:
 include::./examples/compose/docker-compose.yml[tag=app]
 ----
+
+== Backup the database
+
+[source, bash]
+-----
+# 1. Stop the Docker Containers
+docker-compose ...
+
+# 2. Backup the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker-compose ...
+-----
+
+* Create entries in the todo app
+* Perform a backup
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/compose/commands.sh[tag=backup]
+-----
+
+== Restore the database
+
+[source, bash]
+-----
+# 1. Stop the Docker Containers
+docker-compose ...
+
+# 2. Restore the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker-compose ...
+-----
+
+* Create entries in the todo app
+* Perform a restore
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/compose/commands.sh[tag=restore]
+-----
+
+== Cleanup
+[source, bash]
+-----
+# 1. Delete Delete the Docker Containers
+docker container ...
+
+# 2. Delete the Docker Image
+docker image ...
+
+# 3. Delete the Docker Network
+docker network ...
+
+# 3. Delete the Volume
+docker volume ...
+-----
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/compose/commands.sh[tag=cleanup]
+-----

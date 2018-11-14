@@ -26,7 +26,8 @@ image:docker_example_complex.svg[title="Complex example",caption="Complex exampl
 
 * The application is a simple __todo__ application
 * The __todo__ application needs these env vars: 
-** __DB_URL__, __DB_USER__, __DB_PASSWORD__
+** __DB_USER__, __DB_PASSWORD__
+** __DB_URL__=jdbc:mysql://host:port/db
 * The host running the Docker Container must have internet access
 * The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
 * The database needs to be accessible when the __todo__ application starts
@@ -40,7 +41,7 @@ MAINTAINER ...
 LABEL ...
 RUN ...
 COPY ...
-CMD ...
+CMD ["java", "-jar", "/work/app.jar", "java.net.preferIPv4Stack=true", "-Dswarm.bind.address=0.0.0.0"]
 -----
 
 [.text-left]

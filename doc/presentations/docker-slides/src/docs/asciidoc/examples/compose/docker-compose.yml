@@ -1,16 +1,34 @@
 version: '3'
-
 services:
-# tag::app[]
-  todo-app:
+
+# tag::db[]
+  todo-db:
     image: library/mariadb:latest
     environment:
-      - MYSQL_ROOT_PASSWORD="todo"
-      - MYSQL_DATABASE="todo"
-      - MYSQL_USER="todo" 
-      - MYSQL_PASSWORD="todo" 
-    network:
+      - MYSQL_ROOT_PASSWORD=todo
+      - MYSQL_DATABASE=todo
+      - MYSQL_USER=todo 
+      - MYSQL_PASSWORD=todo 
+    networks:
      - todo-net
+    volumes: 
+     - todo-db-vol:/var/lib/mysql
+# end::db[]
+
+# tag::app[]
+  todo-app:
+    build:
+      context: ./todo-app 
+    environment:
+      - DB_URL=jdbc:mysql://todo-db:3306/todo
+      - DB_USER=todo 
+      - DB_PASSWORD=todo
+    networks:
+     - todo-net
+    ports:
+     - 8080:8080
+    depends_on:
+     - todo-db
 # end::app[]
 
 # tag::volume[]
@@ -20,5 +38,5 @@ volumes:
  
 # tag::network[]
 networks:
-  todo-net
+  todo-net:
 # end::network[]
