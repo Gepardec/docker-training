@@ -1,0 +1,90 @@
+= Docker Compose Example
+Thomas Herzog
+2018-11-09
+:author: Thomas Herzog
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../../main/java]
+:title-slide-background-image: 70s.jpg
+:title-slide-transition: zoom
+:title-slide-transition-speed: fast
+:customcss: slides.css
+:source-highlighter: highlightjs
+
+== What do we want to learn?
+
+image:docker_example_complex.svg[title="Complex example",caption="Complex example",align=center]
+
+[.text-left]
+* How to define a __docker-compose.yml__ 
+* How to use Docker Networks
+* How to connect Docker Containers in a network
+* How to Backup/Restore a Docker Container
+
+=== The example
+
+* The application is a simple __todo__ application
+* The __todo__ application needs these env vars: 
+** __DB_URL__, __DB_USER__, __DB_PASSWORD__
+* The host running the Docker Container must have internet access
+* The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
+* The database needs to be accessible when the __todo__ application starts
+
+== The Docker Volume
+
+[source,bash]
+-----
+version: '3'
+...
+-----
+
+[.text-left]
+* Define a Docker Volume and name it __todo-db-vol__ 
+
+=== Solution
+
+[source,bash]
+----
+version: '3'
+include::./examples/compose/docker-compose.yml[tag=volume]
+----
+
+
+== The Docker Network
+
+[source,bash]
+-----
+version: '3'
+...
+-----
+
+[.text-left]
+* Define a Docker Network and name it __todo-net__ 
+
+=== Solution
+
+[source,bash]
+----
+version: '3'
+include::./examples/compose/docker-compose.yml[tag=network]
+----
+
+== The todo-app service
+
+[source,bash]
+-----
+version: '3'
+...
+-----
+
+[.text-left]
+* Define the __todo-db__ service 
+
+=== Solution
+
+[source,bash]
+----
+version: '3'
+include::./examples/compose/docker-compose.yml[tag=app]
+----
