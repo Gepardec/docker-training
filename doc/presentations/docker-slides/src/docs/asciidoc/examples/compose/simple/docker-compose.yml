@@ -36,7 +36,9 @@ volumes:
   todo-db-vol:
 # end::volume[]
  
-# tag::network[]
+# tag::net[]
 networks:
   todo-net:
-# end::network[]
+# end::net[]
+
+# Nothing else

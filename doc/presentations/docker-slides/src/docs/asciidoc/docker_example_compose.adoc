@@ -22,6 +22,24 @@ image:docker_example_complex.svg[title="Complex example",caption="Complex exampl
 * How to Backup/Restore a Docker Container
 * Reproducibility, running in parallel
 
+=== What is Docker Compose
+
+[source,bash]
+----
+version: '3'
+services:
+  frontend:
+    ...
+  backend:
+    ...
+  database:
+    ....
+----
+
+* Tool for running multi container apps
+* Defined with the YAML file docker-compose.yml
+* Add container managed at once
+
 === The example
 
 * The application is well known __todo__ application
@@ -47,7 +65,7 @@ version: '3'
 [source,bash]
 ----
 version: '3'
-include::./examples/compose/docker-compose.yml[tag=volume]
+include::./examples/compose/simple/docker-compose.yml[tag=volume]
 ----
 
 
@@ -67,7 +85,7 @@ version: '3'
 [source,bash]
 ----
 version: '3'
-include::./examples/compose/docker-compose.yml[tag=network]
+include::./examples/compose/simple/docker-compose.yml[tag=net]
 ----
 
 == The todo-db service
@@ -88,7 +106,7 @@ services:
 ----
 version: '3'
 services:
-include::./examples/compose/docker-compose.yml[tag=db]
+include::./examples/compose/simple/docker-compose.yml[tag=db]
 ----
 
 == The todo-app service
@@ -112,7 +130,7 @@ services:
 ----
 version: '3'
 services:
-include::./examples/compose/docker-compose.yml[tag=app]
+include::./examples/compose/simple/docker-compose.yml[tag=app]
 ----
 
 == Backup the database
@@ -136,7 +154,7 @@ docker-compose ...
 
 [source, bash]
 -----
-include::./examples/compose/commands.sh[tag=backup]
+include::./examples/compose/simple/commands.sh[tag=backup]
 -----
 
 == Restore the database
@@ -160,7 +178,7 @@ docker-compose ...
 
 [source, bash]
 -----
-include::./examples/compose/commands.sh[tag=restore]
+include::./examples/compose/simple/commands.sh[tag=restore]
 -----
 
 == Add healthchecks and restart
@@ -188,7 +206,7 @@ test: ["CMD", "wget", \
 version: '3'
 services:
   todo-db:
-include::./examples/compose/docker-compose-health.yml[tag=dbhealth]
+include::./examples/compose/simple/docker-compose-health.yml[tag=dbhealth]
 ----
 
 === Solution todo-app
@@ -198,7 +216,7 @@ include::./examples/compose/docker-compose-health.yml[tag=dbhealth]
 version: '3'
 services:
   todo-app:
-include::./examples/compose/docker-compose-health.yml[tag=apphealth]
+include::./examples/compose/simple/docker-compose-health.yml[tag=apphealth]
 ----
 
 == Deploy a second infrastructure
@@ -250,5 +268,5 @@ include::./examples/compose/infra-3/docker-compose.yml[tag=param]
 
 [source, bash]
 -----
-include::./examples/compose/commands.sh[tag=cleanup]
+include::./examples/compose/simple/commands.sh[tag=cleanup]
 -----
