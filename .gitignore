@@ -5,6 +5,7 @@
 *.tar.gz
 *.zip
 *.rar
+.directory
 feature/vagrant-docker
 # Directories #
 build/

@@ -9,8 +9,9 @@ cd $(dirname ${0})
 docker-compose down
 
 # 2. Backup the database
+# Be aware of the directory prefix!!!
 docker run --rm \
-    --volume todo-db:/var/lib/mysql \
+    --volume simple_todo-db:/var/lib/mysql \
     --volume $(pwd):/backup \
     alpine tar cvf /backup/backup.tar -C /var/lib/mysql .
     
@@ -23,8 +24,9 @@ docker-compose up -d
 docker-compose down
 
 # 2. Perform the restore
+# Be aware of the directory prefix!!!
 docker run --rm \
-    --volume todo-db:/var/lib/mysql \
+    --volume simple_todo-db:/var/lib/mysql \
     --volume $(pwd):/restore \
     alpine sh -c "rm -rf  /var/lib/mysql/* \
     && tar xvf /restore/backup.tar -C /var/lib/mysql --strip 1"

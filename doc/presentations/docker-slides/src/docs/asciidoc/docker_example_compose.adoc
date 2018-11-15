@@ -192,7 +192,7 @@ test: ["CMD", "mysql", \
 
 # Test for healthy todo-app
 test: ["CMD", "wget", \
-       "-f", "http://localhost:8080"]
+       "http://localhost:8080/health"]
 -----
 
 * The test array needs to be inline!!!!!!
@@ -239,8 +239,7 @@ include::./examples/compose/simple/docker-compose-health.yml[tag=apphealth]
 
 * Find out how to provide external properties
 * Extract all variables from docker-compose.yml
-* Provide properties with each values to infras
-
+* Provide property values for two infras
 
 === Solution 
 
