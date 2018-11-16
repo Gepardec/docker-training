@@ -42,12 +42,20 @@ services:
 
 === The example
 
-* The application is well known __todo__ application
+* The application is a __todo__ application
 * The __todo__ application needs these env vars: 
 ** __DB_USER__, __DB_PASSWORD__
-** __DB_URL__=jdbc:mysql://host:port/db
+** __DB_URL__=jdbc:mysql://<host>:<port>/<db>
 * The host running the Docker Container must have internet access
 * The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
+
+=== Preparations
+
+* Create the directory *compose-example-1/todo-app*
+* Copy the *app.jar* to directory *todo-app*
+* Copy the *Dockerfile* for __todo-app__ to directory *todo-app*
+* Create a file named *commands.sh*
+* Create a file named *docker-compose.yml* 
 
 == The Docker Volume
 
@@ -58,7 +66,8 @@ version: '3'
 -----
 
 [.text-left]
-* Define a Docker Volume and name it __todo-db-vol__ 
+* Define the Docker Volume __todo-db-vol__ in the docker-compose.yml 
+* Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
 
 === Solution
 
@@ -78,7 +87,8 @@ version: '3'
 -----
 
 [.text-left]
-* Define a Docker Network and name it __todo-net__ 
+* Define the Docker Network __todo-net__ in the docker-compose.yml
+* Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
 
 === Solution
 
@@ -98,7 +108,8 @@ services:
 -----
 
 [.text-left]
-* Define the __todo-db__ service 
+* Define the Service __todo-db__ in the docker-compose.yml
+* Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
 
 === Solution
 
@@ -118,11 +129,9 @@ services:
 ...
 -----
 
-* The Docker Image shall be build by docker-compose!
-* Just reuse the Dockerfile of the complex example
-
-[.text-left]
-* Define the __todo-app__ service 
+* Define the Service __todo-app__ in the docker-compose.yml
+* Docker Compose shall build the image for us
+* Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
 
 === Solution
 
@@ -147,8 +156,11 @@ docker run ...
 docker-compose ...
 -----
 
+* Start your infrastructure
 * Create entries in the todo app
-* Perform a backup
+* Write the command for stopping the Docker Containers
+* Write the command for running a backup Docker Container
+* Write the command for starting the Docker Containers
 
 === Solution
 
@@ -171,8 +183,10 @@ docker run ...
 docker-compose ...
 -----
 
-* Create entries in the todo app
-* Perform a restore
+* Clear the infrastructure by executing ``docker-compose down -v``
+* Write the command for stopping the Docker Containers
+* Write the command for running a restoring Docker Container
+* Write the command for starting the Docker Containers
 
 === Solution
 
@@ -196,8 +210,9 @@ test: ["CMD", "wget", \
 -----
 
 * The test array needs to be inline!!!!!!
-* Add an healthcheck and restart to the __todo-app__
-* Add an healthcheck and restart to the __todo-db__
+* Define an healthcheck and restart to the __todo-app__
+* AddDefine an healthcheck and restart to the __todo-db__
+* Test the definition by executing ``docker-compose up`` and ``docker ps``
 
 === Solution todo-db
 
@@ -221,19 +236,16 @@ include::./examples/compose/simple/docker-compose-health.yml[tag=apphealth]
 
 == Deploy a second infrastructure
 
-* Create a second infrastructure project
-* Make modifications to run them in parallel
-* Run them in parallel
-* Backup one __todo-db__ service and restore in the other infra.
+* Copy the directory *compose-example-1* to *compose-example-2*
+* Find out what needs to be changed, and do it
+* Start both infrastructures with ``docker-compose up``
+* Backup *compose-example-1* __todo-db__ and restore in *compose-example-2* __todo-db__.
 
 === Solution
 
-. Copy __infra-1__ to __infra-2__
-. Change __todo-app__ port to *9080* of infra-2
-. Start both infras with ``docker-compose up``
-. Perform backup on infra-1 __todo-db__
-. Perform restore on infra-2 __todo-db__
-
+. Change __todo-app__ port to *9080* of *compose-example-2*
+. Perform backup on *compose-example-1* __todo-db__
+. Perform restore on *compose-example-2* __todo-db__
 
 == Extract parameters
 

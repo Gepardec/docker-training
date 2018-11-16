@@ -1,0 +1,11 @@
+swarm:
+    ds:
+      username: ${env.DB_USER}
+      password: ${env.DB_PASSWORD}
+      connection:
+        url: ${env.DB_URL}
+    jdbc-drivers:
+      mysql:
+        driver-class-name: com.mysql.jdbc.Driver
+        xa-datasource-name: om.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+        driver-module-name: com.mysql

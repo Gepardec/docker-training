@@ -32,6 +32,13 @@ image:docker_example_complex.svg[title="Complex example",caption="Complex exampl
 * The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
 * The database needs to be accessible when the __todo__ application starts
 
+=== Preparations
+
+* Create the directory *complex-example* for the sources
+* Copy the *app.jar* to that directory
+* Create a file named *commands.sh* and add all your commands there
+* Create a file named *Dockerfile* for defining the __todo-app__ environment
+
 == The Application Docker Image
 
 [source,bash]
@@ -45,11 +52,11 @@ CMD ["java", "-jar", "/work/app.jar", "java.net.preferIPv4Stack=true", "-Dswarm.
 -----
 
 [.text-left]
-* Create a Dockerfile for the application
-* Define a label describing how to use the Docker image
-* Copy jar from the context in the directory ``/work``
-* Define a proper start command for the application
-* Build the Docker Image and tag it with __todo-app:latest__
+* Define a *LABEL* describing how to use the Docker image
+* **RUN** a shell command to create directory ``/work``
+* **COPY** app.jar from the context in the directory ``/work``
+* Add the *CMD* of the snippet
+* Write the command for building the Docker Image with *tag* __todo-app:latest__
 
 === Solution
 
@@ -70,7 +77,7 @@ include::./examples/complex/commands.sh[tag=build]
 docker volume ...
 -----
 
-* Create the Docker Volume for the database with name __todo-db-vol__
+* Write the command for creating the Docker Volume __todo-db-vol__
 * This is the volume keeping the database persistent
 
 === Solution
@@ -87,7 +94,7 @@ include::./examples/complex/commands.sh[tag=volume]
 docker network ...
 -----
 
-* Create the Docker Network for database with name __todo-net__
+* Write the command for creating the Docker Network __todo-net__
 * This is the network for the database and todo application
 
 === Solution
@@ -107,10 +114,10 @@ docker container ...
 docker container ...
 -----
 
-* Create the Docker Containers with names __todo-app__ and __todo-db__
-* Start the __todo-db__ Docker Container and wait until its up 
-* Start the __todo-app__ Docker Container
+* Write the commands for creating the Docker Containers __todo-app__, __todo-db__
+* Write the command for starting the Docker Containers __todo-db__, __todo-app__
 * Access the application via link:http://localhost:8080[]
+* Create some todo entries
 
 === Solution
 
@@ -145,8 +152,9 @@ docker run ...
 docker container ...
 -----
 
-* Create entries in the todo app
-* Perform a backup
+* Write the command for stopping the Docker Containers
+* Write the command for running a backup Docker Container
+* Write the command for starting the Docker Containers
 
 === Solution
 
@@ -169,8 +177,9 @@ docker run ...
 docker container ...
 -----
 
-* Create entries in the todo app
-* Perform a restore
+* Write the command for stopping the Docker Containers
+* Write the command for running a restore Docker Container
+* Write the command for starting the Docker Containers
 
 === Solution
 
