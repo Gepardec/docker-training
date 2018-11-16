@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.gepardec.training.docker</groupId>
     <artifactId>docker-intro</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>Gepardec Training : Docker Intro</name>
 
     <properties>

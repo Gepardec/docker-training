@@ -12,3 +12,6 @@ You will find the html slides in ``target/generated-slides``.
 
 == How to present the slides
 Just open one of the generated presentations located in ``target/generated-slides`` in a browser and use the navigation arrows to navigate through the slides.
+
+== Sample applications
+This slides use the link:../../apps/todo[Sample application todo] for the training, which is referred to *app.jar* in the slides.
