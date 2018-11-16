@@ -11,7 +11,7 @@ mvn clean install
 ----
 The microservice standalone artifact is the todo-<version>-thorntail.jar.
 
-== Application dependencies
+== What does it need?
 The application depends on an mysql database and expectes the following environment variables to be set.
 
 * *DB_URL:* The jdbc url pointing to the mysql datbase
