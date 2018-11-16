@@ -1,6 +1,5 @@
 = TODO Application
 
-== What is the todo applcation?
 This application is a simple microservice application based on the link:https://thorntail.io/[Thorntail.io] framework for creating todo entries in a database via a simple web UI.
 This example application is used for the docker training as an application we want to run in a Docker Container.
 
