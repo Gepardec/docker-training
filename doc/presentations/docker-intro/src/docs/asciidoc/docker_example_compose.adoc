@@ -16,7 +16,6 @@ ifndef::sourcedir[:sourcedir: ../../main/java]
 
 image:docker_example_complex.svg[title="Complex example",caption="Complex example",align=center]
 
-[.text-left]
 * How to define a __docker-compose.yml__ 
 * How to use Docker Networks/Volumes
 * How to Backup/Restore a Docker Container
@@ -65,7 +64,6 @@ version: '3'
 ...
 -----
 
-[.text-left]
 * Define the Docker Volume __todo-db-vol__ in the docker-compose.yml 
 * Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
 
@@ -86,9 +84,8 @@ version: '3'
 ...
 -----
 
-[.text-left]
 * Define the Docker Network __todo-net__ in the docker-compose.yml
-* Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
+* Test the definition by executing [source,bash] ``docker-compose up`` and [source,bash] ``docker-compose down -v``
 
 === Solution
 
@@ -107,7 +104,6 @@ services:
 ...
 -----
 
-[.text-left]
 * Define the Service __todo-db__ in the docker-compose.yml
 * Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
 

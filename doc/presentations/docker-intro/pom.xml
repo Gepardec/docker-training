@@ -96,6 +96,7 @@
                             <templateDir>${project.build.directory}/asciidoctor-reveal.js-${asciidoctor-revealjs.version}/templates</templateDir>
                             <sourceHighlighter>highlightjs</sourceHighlighter>
                             <attributes>
+                                <project-version>${project.version}</project-version>
                                 <!--
                                     As we are downloading reveal.js in runtime, it sits in a nonstandard folder `reveal.js-${revealjs.version}`
                                 -->
@@ -104,9 +105,10 @@
                                 <sourcedir>${basedir}/src/main/java</sourcedir>
                                 <revealjs_theme>white</revealjs_theme>
                                 <revealjs_transition>linear</revealjs_transition>
-                                <project-version>${project.version}</project-version>
-                                <slideNumber>true</slideNumber>
-                                <history>true</history>
+                                <revealjs_slideNumber>true</revealjs_slideNumber>
+                                <revealjs_history>true</revealjs_history>
+                                <revealjs_width>1600</revealjs_width><!-- 2560 -->
+                                <revealjs_height>900</revealjs_height><!-- 1440 -->
                             </attributes>
                         </configuration>
                     </execution>

@@ -16,7 +16,6 @@ ifndef::sourcedir[:sourcedir: ../../main/java]
 
 image:docker_example_complex.svg[title="Complex example",caption="Complex example",align=center]
 
-[.text-left]
 * How to use Docker Networks 
 * How to use the Docker Registry
 * How to connect Docker Containers in a network
@@ -51,7 +50,6 @@ COPY ...
 CMD ["java", "-jar", "/work/app.jar", "java.net.preferIPv4Stack=true", "-Dswarm.bind.address=0.0.0.0"]
 -----
 
-[.text-left]
 * Define a *LABEL* describing how to use the Docker image
 * **RUN** a shell command to create directory ``/work``
 * **COPY** app.jar from the context in the directory ``/work``
