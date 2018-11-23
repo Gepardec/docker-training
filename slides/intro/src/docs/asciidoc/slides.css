@@ -1,41 +1,4 @@
-.text-left {
-  text-align: left;
-}
-
-.text-small {
-  font-size: small;
-}
-
-.reveal h1,
-.reveal h2,
-.reveal h3,
-.reveal h4,
-.reveal h5,
-.reveal h6 {
-  font-size: 1.5em;
-}
-
-.reveal p {
-  margin: 15px 0;
-  line-height: 1.0;
-  font-size: 1em;
-}
-
-.reveal div.paragraph {
-    margin-top: 30px;
-}
-
-.reveal div.paragraph div.title {
-    font-weight: medium;
-    font-size: 0.8em;
-    font-style: italic;
-}
-
-.reveal p.title {
-    text-color: red;
-}
-
 .reveal section img {
-    bordeR: none;
+    border: none;
     box-shadow: none;
 }
