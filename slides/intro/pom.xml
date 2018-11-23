@@ -8,12 +8,9 @@
         <version>0.0.3-SNAPSHOT</version>
     </parent>
 
+    <packaging>pom</packaging>
     <artifactId>docker-slides-intro</artifactId>
     <name>Gepardec Training : Docker Slides Intro</name>
-
-    <properties>
-        <project.slides.directory>${project.build.directory}/generated-slides</project.slides.directory>
-    </properties>
 
     <build>
         <defaultGoal>process-resources</defaultGoal>
@@ -45,7 +42,7 @@
                             <url>https://github.com/hakimel/reveal.js/archive/${revealjs.version}.zip</url>
                             <unpack>true</unpack>
                             <outputFileName>reveal.js-${revealjs.version}.zip</outputFileName>
-                            <outputDirectory>${project.slides.directory}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${generated.slides.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -61,7 +58,7 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.slides.directory}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${generated.slides.directory}</outputDirectory>
                             <backend>revealjs</backend>
                             <templateDir>${project.build.directory}/asciidoctor-reveal.js-${asciidoctor-revealjs.version}/templates</templateDir>
                             <sourceHighlighter>highlightjs</sourceHighlighter>
@@ -81,6 +78,25 @@
                                 <revealjs_height>900</revealjs_height><!-- 1440 -->
                             </attributes>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
