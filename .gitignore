@@ -1,6 +1,24 @@
 .vagrant/
 *.log
-<<<<<<< HEAD
-=======
+*.jar
+*.tar
+*.tar.gz
+*.zip
+*.rar
+.directory
+feature/vagrant-docker
+# Directories #
+build/
+bin/
+target/
+libs/
+tmp/
+node_modules/
+node/
+etc/
 
->>>>>>> feature/vagrant-docker
+# Compiled class file
+*.class
+
+# Log file
+*.log

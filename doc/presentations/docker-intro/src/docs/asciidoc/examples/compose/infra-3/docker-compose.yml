@@ -1,0 +1,56 @@
+version: '3'
+services:
+
+  todo-db:
+    image: library/mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=${TODO_DB_PWD}
+      - MYSQL_DATABASE=${TODO_DB_DB}
+      - MYSQL_USER=${TODO_DB_USR}
+      - MYSQL_PASSWORD=${TODO_DB_PWD}
+    networks:
+     - todo-net
+    volumes: 
+     - todo-db-vol:/var/lib/mysql
+# tag::dbhealth[]
+    healthcheck:
+      test: ["CMD", "mysql", "--host=localhost", "--database=${TODO_DB_PWD}", "-u${TODO_DB_USR}", "-p${TODO_DB_DB}", "-e", "Select 1"]
+      interval: 2s
+      timeout: 11s
+      retries: 5
+    restart: on-failure
+# end::dbhealth[]
+
+  todo-app:
+    build:
+      context: ./todo-app 
+# tag::param[]
+    environment:
+      - DB_URL=jdbc:mysql://todo-db:3306/${TODO_DB_DB}
+      - DB_USER=${TODO_DB_USR} 
+      - DB_PASSWORD=${TODO_DB_PWD}
+    networks:
+     - todo-net
+    ports:
+     - ${TODO_APP_PORT}:8080
+# end::param[]
+    depends_on:
+     - todo-db
+# tag::apphealth[]
+    healthcheck:
+      test: ["CMD", "wget", 'http://localhost:8080/health']
+      interval: 2s
+      timeout: 31s
+      retries: 15
+    restart: always
+# end::apphealth[]
+
+# tag::volume[]
+volumes:
+  todo-db-vol:
+# end::volume[]
+ 
+# tag::network[]
+networks:
+  todo-net:
+# end::network[]
