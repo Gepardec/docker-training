@@ -16,7 +16,6 @@ ifndef::sourcedir[:sourcedir: ../../main/java]
 
 image:docker_example_simple.svg[title="Simple example",caption="Simple example",align=center]
 
-[.text-left]
 * How to write Dockerfiles
 * How to build Docker Images
 * How to use Docker Volumes
@@ -34,7 +33,6 @@ ENV PREFIX "default"
 CMD "while true; do sleep 3s; COUNT=${COUNT:-1}; touch /work/${PREFIX}_${COUNT}; ls /work -lrta; COUNT=$((COUNT+1)); done"
 -----
 
-[.text-left]
 * Create a Dockerfile for the application
 * We need a directory called ``/work``
 * We need a Docker Volume for the directory ``/work``

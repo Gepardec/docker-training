@@ -1,0 +1,17 @@
+= Docker Slides
+
+This is a maven project, which contains maven modules, which hold the slides in form of asciidoc socuments, which are converted to reveal.js slides during the maven build.
+
+== How to build?
+Build the project and all of its modules with the following command.
+[source, bash]
+----
+mvn clean install
+----
+You will find the html slides in ``<maven_project>/target/generated-slides``.
+
+== How to present the slides
+Just open one of the generated presentations located in ``<maven_project>/target/generated-slides`` in a browser and use the navigation arrows to navigate through the slides.
+
+== Sample applications
+The docker slides use sample applications for the training located at link:../../apps[Sample applications].

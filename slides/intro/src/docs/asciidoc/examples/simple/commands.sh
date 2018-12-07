@@ -51,3 +51,4 @@ docker image rm simple
 # 3. Delete the Docker Volumes, used by the Docker Containers
 docker volume rm simple-1-vol simple-2-vol
 # end::cleanup[]
+# nothing else

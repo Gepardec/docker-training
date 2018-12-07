@@ -13,19 +13,17 @@ ifndef::sourcedir[:sourcedir: ../../main/java]
 
 == Why Docker?
 
-image:docker_on_host.svg[title="VM Isolation",caption="VM Isolation",float=left]
+image:docker_on_host.svg[title="VM Isolation",caption="VM Isolation"]
 image:docker_on_cloud.svg[title="Docker in Cloud",caption="Docker in Cloud"]
 
-[.text-left]
 * Reproducible, distributable, shareable and isolated applications
 * Runnable on multiple platforms (Local, VM, Kubernetes, Openshift, ...)
-* Useful in development/test environments 
+* Useful in development/test environments
 
 === What if we use a VM?
 
 image:vm_isolation_example.svg[title="VM Isolation of processes",caption="VM Isolation of processes", align="center"]
 
-[.text-left]
 * Application processes are isolated by their own OS +
 * Overhead due to full blown OS
 * Not easy to reproduce, distribute and provision
@@ -34,7 +32,6 @@ image:vm_isolation_example.svg[title="VM Isolation of processes",caption="VM Iso
 
 image:docker_isolation_example.svg[title="Docker Isolation of processes",caption="Docker Isolation of processes", align="center"]
 
-[.text-left]
 * Application processes running in isolated containers on same OS
 * One single OS for all applications
 * Easy to reproduce, distribute and provision
@@ -43,7 +40,6 @@ image:docker_isolation_example.svg[title="Docker Isolation of processes",caption
 
 image:docker_hierarchy.svg[title="Docker Tool",caption="Docker Tool", align="center"]
 
-[.text-left]
 * Tooling on top of LXC __(Linux Containers)__
 * Docker provides an application focus
 * Docker manages Docker Images and Docker Containers
@@ -53,7 +49,6 @@ image:docker_hierarchy.svg[title="Docker Tool",caption="Docker Tool", align="cen
 
 image:docker_architecture.svg[title="Docker Architecture",caption="Docker Architecture", align="center"]
 
-[.text-left]
 * **Docker Client:** Executes commands
 * **Docker Host:** Runs the Docker Containers
 * **Docker Registry:** Stores Docker Images
@@ -70,7 +65,6 @@ image:docker_engine.svg[title="Docker Engine",caption="Docker Engine", align="ce
 
 image:docker_machine.svg[title="Docker Machine",caption="Docker Machine", align="center"]
 
-[.text-left]
 * Manage Docker Engines on remote Docker Hosts
 * Provision containers on remote Docker Hosts
 * Useful in clustered environments
@@ -79,7 +73,6 @@ image:docker_machine.svg[title="Docker Machine",caption="Docker Machine", align=
 
 image:union_filesystem_base.svg[title="Union filesystem",caption="Union filesystem", align="center"]
 
-[.text-left]
 * Layers of filesystem states
 * Layer contains changes to former layer
 * Each layer is immutable
@@ -90,7 +83,6 @@ image:union_filesystem_base.svg[title="Union filesystem",caption="Union filesyst
 
 image:docker_artefacts.svg[title="Docker Artefacts",caption="Docker Artefacts", align="center"]
 
-[.text-left]
 * **Docker Image:** The template for Docker Containers
 * **Docker Container:** An instance of a Docker Image
 * **Docker Volumes:** Abstraction of filesystems
@@ -98,7 +90,6 @@ image:docker_artefacts.svg[title="Docker Artefacts",caption="Docker Artefacts", 
 
 === Docker Image
 
-[.text-left]
 [source,bash]
 -----
 FROM library/java:8-alpine
@@ -113,7 +104,6 @@ PORT 8080
 CMD [“java”, “-jar”, “app.jar”]
 -----
 
-[.text-left]
 * A Dockerfile defines the Docker Image
 * A description how to prepare the app environment
 * Can be build on any Docker Host
@@ -122,7 +112,6 @@ CMD [“java”, “-jar”, “app.jar”]
 
 image:union_filesystem_build_image.svg[title="Docker Image layers",caption="Docker Image layers", align="center"]
 
-[.text-left]
 * Each layer is caused by a Dockerfile command
 * Layer contains file system changes or metadata
 * All layers are read only !!!!
@@ -140,9 +129,8 @@ image:union_filesystem_running_container.svg[title="Docker Container layer",capt
 
 image:docker_volumes.svg[title="Docker Volumes",caption="Docker Volumes", align="center"]
 
-[.text-left]
-* **Docker Volume:** 
-** Shareable among hosts, 
+* **Docker Volume:**
+** Shareable among hosts,
 ** different storage drivers for remote storages
 * **Bind Volume:** Bind on host filesystem (not sharable)
 
@@ -150,7 +138,6 @@ image:docker_volumes.svg[title="Docker Volumes",caption="Docker Volumes", align=
 
 image:docker_networks.svg[title="Docker Networks",caption="Docker Networks", align="center"]
 
-[.text-left]
 * Keeps application processes within isolated networks
 * Easy to define and manage
 * Different network drivers are available (host, bridge, overlay,...)
