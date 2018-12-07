@@ -21,7 +21,10 @@ The training repository 'https://github.com/Gepardec/docker-training.git' has be
 
   config.vm.provision "docker"
   config.vm.provision "shell", inline: "sudo apt-get update \
-                                        && sudo apt-get install -y git docker-compose \
-                                        && rm -rf /home/vagrant/docker-training \
+                                        && sudo apt-get install -y git docker-compose openjdk-8-jdk openjdk-8-source openjdk-8-doc \
+                                        && rm -rf /home/vagrant/docker-training /home/vagrant/maven \
+										&& sudo mkdir -p /home/vagrant/maven \
+										&& sudo ln -s /home/vagrant/maven/bin/mvn /usr/local/bin/mvn \
+										&& curl -q http://mirror.klaus-uwe.me/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz | tar xz --strip-components=1 -C /home/vagrant/maven \
                                         && git clone https://github.com/Gepardec/docker-training.git /home/vagrant/docker-training"
 end
