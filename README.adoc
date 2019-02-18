@@ -24,7 +24,7 @@ You find the sample applications at link:./apps[Sample Applications].
   A simple sample application used for showing how to run an app in a Docker Container
 
 == Presentations
-You find the presentations at link:./slides[Slides].
+You find the presentations at link:./doc/presentations[Presentations].
 
-* link:./slides/intro[Intro] +
-  The slides for the first steps with Docker and Docker Compose
+* link:./doc/presentations/docker-intro[Docker Intro slides] + 
+  The Docker Intro slides, for the first steps with Docker and Docker Compose

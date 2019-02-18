@@ -5,6 +5,9 @@
 # Install Vagrant on C: and do not change it'
 # Disable shared folders, because vagrant cannot determine hyperv vm ip address
 #
+# You need admin priviledges as described here: https://www.vagrantup.com/docs/hyperv/usage.html
+#
+# If you use vagrant <= 2.1.2 !!!!!!
 # Tmp fix in File 'C:\Program Files (x86)\HashiCorp\Vagrant\embedded\gems\2.1.2\gems\vagrant-2.1.2\plugins\providers\hyperv\scripts\utils\VagrantVM\VagrantVM.psm1'
 ##############################################
 #<#
@@ -17,6 +20,7 @@ Vagrant.require_version ">= 2.1.2"
 Vagrant.configure("2") do |config|
 
   config.vm.box = "dka/ubuntu-bionic64"
+  config.vm.box_version = "1.0.0"
   config.vm.define "docker-host-hyperv"
   config.vm.network "forwarded_port", guest: 80, host: 9080
   # SMB share failed, because IP could not be found of the hyperv VM, therefore disbale shared folders
@@ -35,7 +39,10 @@ The training repository 'https://github.com/Gepardec/docker-training.git' has be
 
   config.vm.provision "docker"
   config.vm.provision "shell", inline: "sudo apt-get update \
-                                        && sudo apt-get install -y git docker-compose \
-                                        && rm -rf /home/vagrant/docker-training \
+                                        && sudo apt-get install -y git docker-compose openjdk-8-jdk openjdk-8-source openjdk-8-doc \
+                                        && rm -rf /home/vagrant/docker-training /home/vagrant/maven \
+										&& sudo mkdir -p /home/vagrant/maven \
+										&& sudo ln -s /home/vagrant/maven/bin/mvn /usr/local/bin/mvn \
+										&& curl -q http://mirror.klaus-uwe.me/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz | tar xz --strip-components=1 -C /home/vagrant/maven \
                                         && git clone https://github.com/Gepardec/docker-training.git /home/vagrant/docker-training"
 end

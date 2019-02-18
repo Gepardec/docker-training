@@ -9,12 +9,26 @@ This section describes how to install Vagrant.
 . Download the package for your OS
 . Install the package
 
-## Install Virtualbox
-This section describes how to install Virtualbox.
+## Hypervisor Setup
+This section describes how to setup Virtualbox or how to enable HyperV if vagrant shall use HyperV boxes.
 
+### With Virtualbox
 . Go to __link:https://www.virtualbox.org/wiki/Downloads[Virtualbox Download]__
 . Download the package for your OS
 . Install the package
+
+### With HyperV
+. Enable HyperV as described here link:https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v[Enable HyperV]
+[CAUTION]
+===============================
+Because of these Bug Reports:
+
+* link:https://github.com/hashicorp/vagrant/issues/9986[https://github.com/hashicorp/vagrant/issues/9986]
+* link:https://github.com/hashicorp/vagrant/pull/10000[https://github.com/hashicorp/vagrant/pull/10000]
+
+Vagrant needs to have at least version 2.1.3
+===============================
+* Ensure you have administrative priviledges as described link::https://www.vagrantup.com/docs/hyperv/usage.html[here]
 
 ## Prepare the Vagrantfile
 This section describes how to setup the Vagrantfile for your needs. The following listing shows the
@@ -28,7 +42,7 @@ include::../vagrant/Vagrantfile[]
 ## Use the Vagrantfile
 This section describes how to use the Vagrantfile to manage the VM.
 
-. Execute ``vagrant up`` to start the VM +
+. Execute ``vagrant up --provider [virutalbox|hyperv]`` to start the VM +
   The VM will be created and provisioned the first time, otherwise it will only be started
 . Execute ``vagrant ssh`` to access the VM +
   User: __vagrant__ / Password: __vagrant__
