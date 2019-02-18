@@ -1,0 +1,34 @@
+language: java
+os:
+  - linux
+stages:
+  - build
+  - release
+cache:
+  directories:
+    - $HOME/.m2/repository
+    - $HOME/releases
+jobs:
+  include:
+    - stage: "build"
+      name: "Build"
+      addons:
+        apt:
+          packages:
+            - graphviz
+      script: >
+           mvn -f ./slides/pom.xml clean install
+           && find ./slides/all/target -regextype posix-extended -regex '.*git.*' -execdir cp {} $HOME/releases/{} \;
+
+    - stage: "release"
+      name: "Release"
+      script: skip
+      deploy:
+        provider: releases
+        overwrite: true
+        file_glob: true
+        skip_cleanup: true
+        api_key: "${GITHUB_OAUTH_TOKEN}"
+        file: "$HOME/releases/*"
+        on:
+          tags: true

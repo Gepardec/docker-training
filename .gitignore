@@ -1,4 +1,5 @@
 .vagrant/
+generated-images/
 *.log
 *.jar
 *.tar
