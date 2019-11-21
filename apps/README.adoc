@@ -1,3 +1,0 @@
-= Sample applications
-
-This directory holds the sample applications used for the trainings. See the sub directories contained README files for the sample application description.

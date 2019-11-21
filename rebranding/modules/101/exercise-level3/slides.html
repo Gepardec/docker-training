@@ -1,0 +1,287 @@
+<section>
+    <section>
+        <h2>Excercise<br>Level 3</h2>
+    </section>
+
+    <section>
+        <h2>What do we want to learn?</h2>
+        <img src='images/docker_example_complex.svg'></img>
+        <br>
+        <ul>
+            <li>How to use Docker Networks </li>
+            <li>How to use the Docker Registry</li>
+            <li>How to connect Docker Containers in a network</li>
+            <li>How to Backup/Restore a Docker Container</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>The example</h2>
+        <ul>
+            <li>The application is a simple todo application</li>
+            <li>The todo application needs these env vars:
+                <ul>
+                    <li>DB_USER, DB_PASSWORD</li>
+                    <li>DB_URL=jdbc:mysql://host:port/db</li>
+                </ul>
+            </li>
+            <li>The host running the Docker Container must have internet access</li>
+            <li>The MariaDb Docker Image: <a href="https://hub.docker.com/_/mariadb/">https://hub.docker.com/_/mariadb/</a></li>
+            <li>The database needs to be accessible when the todo application starts</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Preparations</h2>
+        <ul>
+            <li>Create the directory<b>complex-example</b>for the sources</li>
+            <li>Copy the<b>app.jar</b>to that directory</li>
+            <li>Create a file named<b>commands.sh</b>and add all your commands there</li>
+            <li>Create a file named<b>Dockerfile</b>for defining the todo-app environment</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>The Application Docker Image</h2>
+        <div class="pre">FROM library/java:8-alpine
+MAINTAINER ...
+LABEL ...
+RUN ...
+COPY ...
+CMD ["java", "-jar", "/work/app.jar", "java.net.preferIPv4Stack=true", "-Dswarm.bind.address=0.0.0.0"]</div>
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class="pre">FROM java:openjdk-8-jdk-alpine
+MAINTAINER &ltthomas.herzog@gepardec.com>
+LABEL name="ToDo application" \
+        create="docker container create --name &ltcontainer-name&gt --publish &ltexposed-port&gt:8080 \
+            --env DB_USER=&ltdb-user&gt --env DB_PASSWORD=&ltdb-pwd&gt \
+            --env DB_URL=&ltdb-url&gt --network &ltnetwork-name> &ltimage-name&gt" \
+        start="docker container start &ltcontainer-name&gt"
+        
+RUN mkdir /work
+COPY app.jar /work/app.jar
+CMD ["java", "-jar", "/work/app.jar", "java.net.preferIPv4Stack=true","-Dswarm.bind.address=0.0.0.0"]</div>
+        <br>
+        <ul>
+            <li><code>docker image build -t todo-app:latest .</code></li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>The Docker Network</h2>
+        <div class="pre"># Create the Docker Network
+docker network ...</div>
+        <br>
+        <ul>
+            <li>Create the Docker Network todo-net</li>
+            <li>This is the network for the database and todo application</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+<code>docker network create todo-net</code>
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Provision Docker Containers</h2>
+        <div class="pre"># 1. Create the Docker Containers
+docker container ...
+
+# 2. Start the Docker Containers
+docker container ...</div>
+        <br>
+        <ul>
+            <li>Create the Docker Containers todo-app, todo-db</li>
+            <li>Start the Docker Containers todo-db, todo-app</li>
+            <li>Access the application via <a href="http://localhost:8080">http://localhost:8080</a></li>
+            <li>Create some todo entries
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class="pre"># 1. Create the Docker Containers 
+# 1.1 For todo-app 
+docker container create \
+    --name todo-app \
+    --env "DB_URL=jdbc:mysql://todo-db:3306/todo" \
+    --env "DB_USER=todo" \
+    --env "DB_PASSWORD=todo" \
+    --publish 8080:8080 \
+    --network todo-net \
+    todo-app:latest
+# 1.2 For todo-db
+docker container create \
+    --name todo-db \
+    --volume todo-db-vol:/var/lib/mysql \
+    --env "MYSQL_ROOT_PASSWORD=todo" \
+    --env "MYSQL_DATABASE=todo" \
+    --env "MYSQL_USER=todo" \
+    --env "MYSQL_PASSWORD=todo" \
+    --network todo-net \
+    library/mariadb:latest
+    
+# 2. Start the Docker Containers
+docker container start todo-db
+sleep 5s
+docker container start todo-app</div>
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Some questions?</h2>
+        <ul>
+            <li>What happens if we don't add the todo-app Docker Container to the Docker Network?</li>
+            <li>What happens if we don't publish the port of the todo-app?</li>
+            <li>What happens if we misconfigure one of the environment variables?</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <ul>
+            <li>todo-app can't connect to the database, <br>because todo-app is not in the network</li>
+            <li>We can't access the todo-app web view, <br>because the port 8080 is not published</li>
+            <li>todo-app can't start or access the database, <br>because parameters are missing or faulty?</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Backup the database</h2>
+        <div class="pre"># 1. Stop the Docker Containers
+docker container ...
+
+# 2. Backup the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker container ...</div>
+        <br>
+        <ul>
+            <li>Stop the Docker Containers</li>
+            <li>Run a backup Docker Container</li>
+            <li>Start the Docker Containers</li>                
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class="pre"># 1. Stop the Docker Containers
+docker container stop todo-app todo-db
+
+# 2. Backup the database
+docker run --rm \
+    --volumes-from todo-db \
+    --volume $(pwd):/backup \
+    alpine tar cvf /backup/backup.tar -C /var/lib/mysql .
+    
+# Start the Docker Containers
+docker container start todo-db
+sleep 5s
+docker container start todo-app</div>
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Restore the database</h2>
+        <div class="pre"># 1. Stop the Docker Containers
+docker container ...
+
+# 2. Restore the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker container ...</div>
+        <br>
+        <ul>
+            <li>Stop the Docker Containers</li>
+            <li>Run a restore Docker Container</li>
+            <li>Start the Docker Containers</li>                    
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class="pre"># 1. Stop the Docker Containers
+docker container stop todo-app todo-db
+
+# 2. Perform the restore
+docker run --rm \
+    --volumes-from todo-db \
+    --volume $(pwd):/restore \
+    alpine sh -c "rm -rf  /var/lib/mysql/* \
+    && tar xvf /restore/backup.tar -C /var/lib/mysql --strip 1"
+    
+# 3. Start the Docker Containers 
+docker container start todo-db
+sleep 5s
+docker container start todo-app</div>
+        <br>  
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Cleanup</h2>
+        <div class="pre"># 1. Delete Delete the Docker Containers
+docker container ...
+
+# 2. Delete the Docker Image
+docker image ...
+
+# 3. Delete the Docker Network
+docker network ...
+
+# 3. Delete the Volume
+docker volume ...</div>      
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class="pre"># 1. Delete the Docker Containers
+docker container rm -f todo-app todo-db
+
+# 2. Delete the Docker Image
+docker image rm todo-app
+
+# 3. Delete the Docker Network
+docker network rm todo-net
+
+# 4. Delete the Docker Volume
+docker volume rm todo-db-vol</div>
+        <aside class="notes">
+        </aside>
+    </section>
+</section>

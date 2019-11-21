@@ -1,0 +1,279 @@
+= Docker Compose Example
+Thomas Herzog
+2018-11-09
+:author: Thomas Herzog
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../../main/java]
+:title-slide-background-image: 70s.jpg
+:title-slide-transition: zoom
+:title-slide-transition-speed: fast
+:customcss: slides.css
+:source-highlighter: highlightjs
+
+== What do we want to learn?
+
+image:docker_example_complex.svg[title="Complex example",caption="Complex example",align=center]
+
+* How to define a __docker-compose.yml__ 
+* How to use Docker Networks/Volumes
+* How to Backup/Restore a Docker Container
+* Reproducibility, running in parallel
+
+=== What is Docker Compose
+
+[source,bash]
+----
+version: '3'
+services:
+  frontend:
+    ...
+  backend:
+    ...
+  database:
+    ....
+----
+
+* Tool for running multi container apps
+* Defined with the YAML file docker-compose.yml
+* Add container managed at once
+
+=== The example
+
+* The application is a __todo__ application
+* The __todo__ application needs these env vars: 
+** __DB_USER__, __DB_PASSWORD__
+** __DB_URL__=jdbc:mysql://<host>:<port>/<db>
+* The host running the Docker Container must have internet access
+* The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
+
+=== Preparations
+
+* Create the directory *compose-example-1/todo-app*
+* Copy the *app.jar* to directory *todo-app*
+* Copy the *Dockerfile* for __todo-app__ to directory *todo-app*
+* Create a file named *commands.sh*
+* Create a file named *docker-compose.yml* 
+
+== The Docker Volume
+
+[source,bash]
+-----
+version: '3'
+...
+-----
+
+* Define the Docker Volume __todo-db-vol__ in the docker-compose.yml 
+* Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
+
+=== Solution
+
+[source,bash]
+----
+version: '3'
+include::./examples/compose/simple/docker-compose.yml[tag=volume]
+----
+
+
+== The Docker Network
+
+[source,bash]
+-----
+version: '3'
+...
+-----
+
+* Define the Docker Network __todo-net__ in the docker-compose.yml
+* Test the definition by executing [source,bash] ``docker-compose up`` and [source,bash] ``docker-compose down -v``
+
+=== Solution
+
+[source,bash]
+----
+version: '3'
+include::./examples/compose/simple/docker-compose.yml[tag=net]
+----
+
+== The todo-db service
+
+[source,bash]
+-----
+version: '3'
+services:
+...
+-----
+
+* Define the Service __todo-db__ in the docker-compose.yml
+* Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
+
+=== Solution
+
+[source,bash]
+----
+version: '3'
+services:
+include::./examples/compose/simple/docker-compose.yml[tag=db]
+----
+
+== The todo-app service
+
+[source,bash]
+-----
+version: '3'
+services:
+...
+-----
+
+* Define the Service __todo-app__ in the docker-compose.yml
+* Docker Compose shall build the image for us
+* Test the definition by executing ``docker-compose up`` and ``docker-compose down -v``
+
+=== Solution
+
+[source,bash]
+----
+version: '3'
+services:
+include::./examples/compose/simple/docker-compose.yml[tag=app]
+----
+
+== Backup the database
+
+[source, bash]
+-----
+# 1. Stop the Docker Containers
+docker-compose ...
+
+# 2. Backup the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker-compose ...
+-----
+
+* Start your infrastructure
+* Create entries in the todo app
+* Write the command for stopping the Docker Containers
+* Write the command for running a backup Docker Container
+* Write the command for starting the Docker Containers
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/compose/simple/commands.sh[tag=backup]
+-----
+
+== Restore the database
+
+[source, bash]
+-----
+# 1. Stop the Docker Containers
+docker-compose ...
+
+# 2. Restore the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker-compose ...
+-----
+
+* Clear the infrastructure by executing ``docker-compose down -v``
+* Write the command for stopping the Docker Containers
+* Write the command for running a restoring Docker Container
+* Write the command for starting the Docker Containers
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/compose/simple/commands.sh[tag=restore]
+-----
+
+== Add healthchecks and restart
+
+[source, bash]
+-----
+# Test for healthy database
+test: ["CMD", "mysql", \
+       "--host=localhost", "--database=todo", \
+       "-utodo", "-ptodo", "-e", "Select 1"]
+
+# Test for healthy todo-app
+test: ["CMD", "wget", \
+       "http://localhost:8080/health"]
+-----
+
+* The test array needs to be inline!!!!!!
+* Define an healthcheck and restart to the __todo-app__
+* AddDefine an healthcheck and restart to the __todo-db__
+* Test the definition by executing ``docker-compose up`` and ``docker ps``
+
+=== Solution todo-db
+
+[source,bash]
+----
+version: '3'
+services:
+  todo-db:
+include::./examples/compose/simple/docker-compose-health.yml[tag=dbhealth]
+----
+
+=== Solution todo-app
+
+[source,bash]
+----
+version: '3'
+services:
+  todo-app:
+include::./examples/compose/simple/docker-compose-health.yml[tag=apphealth]
+----
+
+== Deploy a second infrastructure
+
+* Copy the directory *compose-example-1* to *compose-example-2*
+* Find out what needs to be changed, and do it
+* Start both infrastructures with ``docker-compose up``
+* Backup *compose-example-1* __todo-db__ and restore in *compose-example-2* __todo-db__.
+
+=== Solution
+
+. Change __todo-app__ port to *9080* of *compose-example-2*
+. Perform backup on *compose-example-1* __todo-db__
+. Perform restore on *compose-example-2* __todo-db__
+
+== Extract parameters
+
+* Find out how to provide external properties
+* Extract all variables from docker-compose.yml
+* Provide property values for two infras
+
+=== Solution 
+
+[source,bash]
+----
+include::./examples/compose/infra-3/.env[]
+----
+
+[source,bash]
+----
+version: '3'
+services:
+  todo-app:
+include::./examples/compose/infra-3/docker-compose.yml[tag=param]
+----
+
+* Extract all parameters to a file names __.env__
+* Use the variables like this __$PARAM_1__ or __${PARAM_1}__
+
+== Cleanup
+
+* Clean up your workspace
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/compose/simple/commands.sh[tag=cleanup]
+-----

@@ -22,3 +22,6 @@ etc/
 
 # Log file
 *.log
+
+#MacOS
+.DS_Store

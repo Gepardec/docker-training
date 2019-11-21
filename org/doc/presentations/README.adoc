@@ -1,0 +1,3 @@
+= The presentation slides
+
+This directory holds the presentations of the training, whereby each directory represents a maven project, which contains the slidees in form of asciidoc documents. The asciidoc documents are converted to html slides during the maven build. See the subdirectories for the slides documentation.

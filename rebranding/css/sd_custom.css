@@ -1,0 +1,251 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* Fonts */
+@font-face { font-family: OpenSans_Light; src: url(../fonts/OpenSans_Light.ttf); }
+@font-face { font-family: OpenSans_Regular; src: url(../fonts/OpenSans_Regular.ttf); }
+@font-face { font-family: OpenSans_Semibold; src: url(../fonts/OpenSans_Semibold.ttf); }
+@font-face { font-family: Barlow_Regular; src: url(../fonts/Barlow/Barlow-Regular.ttf); }
+/* Fonts */
+
+.cell { width: 100% !important; background-color: #254356; padding: 1px 30px !important; border-radius: 8px; box-sizing: border-box !important; margin-bottom: 10px !important; position: relative; min-height: 78px; box-sizing: border-box; }
+.button_stroke { width: auto !important; background-color: none; border: 3px solid #FFF !important; padding: 0px 30px !important; border-radius: 8px; box-sizing: border-box !important; margin-bottom: 10px !important; position: relative; display: inline-block !important; cursor: pointer; }
+.button_stroke p { margin: 15px 0px !important; }
+.hljs { background-color: #254356 !important; padding: 20px 30px !important; border-radius: 8px; box-shadow: none !important; }
+.reveal pre { box-shadow: none !important; }
+.check_mark { position: absolute; top: 0px; right: 15px; }
+.reveal pre { margin: 20px 0px !important; }
+.table_cell { width: 100%; border: 1px solid rgba(255,255,255, 0.3) !important; padding: 10px 20px !important; box-sizing: border-box; margin-bottom: 20px !important; font-size: 30px !important; background-color: rgba(255,255,255, 0.1); }
+
+ol, dl, ul { margin: 0 0 0 12px !important; }
+
+ul li ul li { font-size: 24px !important;}
+.sub_sub_point { font-size: 24px !important; }
+
+.controls .navigate-right.enabled { border-left-color: #FFF !important; }
+.reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled { border-right-color: #FFF !important; }
+.reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled { border-top-color: #FFF !important; }
+.reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled { border-bottom-color: #FFF !important; }
+.reveal .slides { width: 80% !important; }
+img { 
+  border: none !important; 
+  box-shadow: none !important;
+  background: rgba(0,0,0,0) !important; 
+}
+
+.slide_icon { width: 45px; height: 45px; display: inline-block; vertical-align: middle !important; border: none !important; margin-right: 20px !important; margin-top: 6px !important; box-shadow: none !important; }
+.moby_icon { width: 45px; display: inline-block; vertical-align: middle !important; border: none !important; margin-right: 20px !important; box-shadow: none !important; }
+
+.title h1 {
+  color: white;
+  font-size: 60pt;
+}
+
+.green_bg { text-align: left !important; }
+.green_bg h2 { color: #FFF !important; }
+.green_bg h3 { color: #FFF !important; }
+.green_bg p { color: #FFF !important; }
+.green_bg li { color: #FFF !important; }
+
+.blue_bg { text-align: left !important; }
+.blue_bg h2 { color: #FFF !important; }
+.blue_bg h3 { color: #FFF !important; }
+.blue_bg p { color: #FFF !important; }
+.blue_bg li { color: #FFF !important; }
+
+.gray_bg { text-align: left !important; }
+.gray_bg h2 { color: #FFF !important; }
+.gray_bg h3 { color: #FFF !important; }
+.gray_bg p { color: #FFF !important; }
+.gray_bg li { color: #FFF !important; }
+
+.halfwidth { text-align: left !important; width:50% !important;}
+.halfwidth h2 { color: #FFF !important; }
+.halfwidth h3 { color: #FFF !important; }
+.halfwidth p { color: #FFF !important; }
+.halfwidth li { color: #FFF !important; }
+
+h2 { font-family: Barlow_Regular !important; font-size: 46px !important; font-weight: 100 !important; }
+h3 { font-family: Barlow_Regular !important; font-size: 36px !important; font-weight: 100 !important; }
+p { font-family: Barlow_Regular !important; font-size: 28px !important; font-weight: 100 !important; }
+li { font-family: Barlow_Regular !important; font-size: 28px !important; font-weight: 100 !important; }
+
+.reveal pre, div.pre { 
+  display: inline-block;
+  background-color: rgb(240, 240, 240);
+  text-align: left;
+  color: black; 
+  padding: 10px;
+  margin-bottom: 3px;
+  border: 1px solid lightgrey; 
+  font-family: monospace; 
+  white-space: pre; 
+  font-weight: 300; 
+  font-size: 0.4em; 
+  width: initial;
+  min-width: 300px;
+}
+
+pre.large, div.pre.large { 
+  font-size: 0.6em !important; 
+}
+
+.reveal code {
+    font-family: monospace;
+    /*font-size: 26pt;*/
+    color: sandybrown;
+}
+
+.reveal code.smaller {
+  font-size: 20pt;
+}
+
+.reveal .topcorner{
+   position:absolute;
+   top:0;
+   right:0;
+   z-index:-1;
+  }
+
+.reveal .topcorner img {
+   background: rgba(255, 255, 255, 0);
+}
+
+span.keyword {
+   color: #FFFF00;
+   font-weight: bold !important;
+}
+
+span.red-bg {
+  background: #FF6666
+}
+
+span.blue-bg {
+  background: #6666FF
+}
+
+span.red-box {
+  border: 3px solid red;
+}
+
+span.link {
+  color: cyan;
+}
+
+span.alert {
+  color: red;
+}
+
+.red-bg {
+  background: rgba(255,0,0,1);
+}
+.yellow-bg {
+  background: yellow;
+  color: black;
+}
+.blue-bg {
+  background: blue;
+}
+.green-bg {
+  background: rgba(0,255,0,1);
+  color: black;
+}
+
+div.red-frame {
+  border: 3px solid red;
+}
+
+table.compact td.center{
+  text-align: center;
+}
+
+table.compact {
+  font-size: 20pt;
+}
+table.compact tr {
+   padding: 0;
+   margin: 0;
+   border-bottom: 1px solid;
+ }
+table.compact td, table.compact th {
+  padding: 0 5px 0 5px;
+  border-bottom: 0;
+} 
+
+div.spacer{
+  height: 1em;
+}
+/* 
+  column layout (naming similar to Bootstrap) 
+  make sure you wrap the cells with e.g. a 
+  <div class="row">
+    <div class="col-6">...
+    ...
+  </div>
+*/
+.row {
+  min-height: 1px; /* Required for IE7 */
+}
+
+.row:after {
+  clear: both;
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  content: ".";
+  font-size: 0;
+}
+
+.col-1 {
+  width: 8.333%;
+  float: left;
+}
+.col-2 {
+  width: 16.667%;
+  float: left;
+}
+.col-3 {
+  width: 25%;
+  float: left;
+}
+.col-4 {
+  width: 33.333%;
+  float: left;
+}
+.col-5 {
+  width: 41.667%;
+  float: left;
+}
+.col-6 {
+  width:50%;
+  float: left;
+}
+.col-7 {
+  width:58.333%;
+  float: left;
+}
+.col-8 {
+  width:66.667%;
+  float: left;
+}
+.col-9 {
+  width:75%;
+  float: left;
+}
+.col-10 {
+  width:83.333%;
+  float: left;
+}
+.col-11 {
+  width:91.667%;
+  float: left;
+}
+.col-12 {
+  width:100%;
+  float: left;
+}
+
+a, a:visited, a:active, a:hover {
+  color: rgb(240, 210, 0) !important;
+}

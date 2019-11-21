@@ -1,0 +1,38 @@
+# Setup Vagrant VM with Ubuntu 18.04
+
+We provide a Vagrantfile, which provisions a Ubuntu 18.04 (Bionic) VM, which has all necessary packages installed.
+
+## Install Vagrant
+This section describes how to install Vagrant.
+
+. Go to __link:https://www.vagrantup.com/downloads.html[Vagrant Download]__
+. Download the package for your OS
+. Install the package
+
+## Install Virtualbox
+This section describes how to install Virtualbox.
+
+. Go to __link:https://www.virtualbox.org/wiki/Downloads[Virtualbox Download]__
+. Download the package for your OS
+. Install the package
+
+## Prepare the Vagrantfile
+This section describes how to setup the Vagrantfile for your needs. The following listing shows the
+provided Vagrantfile.
+
+. Set the Host port, you want to forward the Guest port to.
+. Set the CPU/RAM you want the VM to use (Min: 1 CPU, 1 GB/RAM)
+
+include::../vagrant/Vagrantfile[]
+
+## Use the Vagrantfile
+This section describes how to use the Vagrantfile to manage the VM.
+
+. Execute ``vagrant up`` to start the VM +
+  The VM will be created and provisioned the first time, otherwise it will only be started
+. Execute ``vagrant ssh`` to access the VM +
+  User: __vagrant__ / Password: __vagrant__
+. Play around within the VM
+. Execute ``vagrant halt`` to stop the VM
+. Execute ``vagrant destroy`` to destroy the VM +
+   Will cause a recreation of the VM, the next time ``vagrant up`` is executed.

@@ -1,0 +1,61 @@
+# Setup Windows Host
+
+This document describes how to setup a Windows Host for Docker usage, whereby Docker will be accessible via the
+Windows-Subsystem-Linux (WSL). The accessibility of the Docker Host via the WSL is possible, because Docker is
+a client server architecture and all commands are send to the Docker API-Endpoint.
+
+## Windows 10 Pro Requirement
+link:https://docs.docker.com/docker-for-windows/install/[Docker for Windows] uses a HyperV-VM, which
+represents the Docker Host and integrates Docker, Docker Compose and Docker Machine in the Windows Powershell. This provides the behavior, like
+Docker is installed natively on Windows. Unfortunately, HyperV is only available on Windows 10 Pro Hosts, therefore this document
+only applies to Windows 10 Pro users.
+
+## Installation
+This section describes how to install the required parts to get __Docker for Windows__ running and
+accessible via the Windows 10 WSL.
+
+### Install Docker for Windows
+Go to link:https://store.docker.com/editions/community/docker-ce-desktop-windows[Docker Store] and download __Docker for Windows__.
+Then, start the installer and follow the instructions. +
+
+When HyperV is not enabled yet, then __Docker for Windows__ should enable it for you during the installation.
+If it doesn't, see link:https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v[Install Hyper-V on Windows 10]
+for how to install the HyperV Windows 10 Feature.
+
+### Install Windows Subsystem Linux (WSL)
+Go to link:https://docs.microsoft.com/en-us/windows/wsl/install-win10[Windows 10 Installation Guide] and follow the instructions to
+enable and install the WSL.
+
+## Setup
+This section describes the setup of the WSL and __Docker for Windows__, so that Docker and Docker Compose can be used via the WSL as well.
+
+### Setup Docker for Windows
+This section describes how to setup __Docker for Windows__.
+
+. Go to **__General__** and enable **Expose daemon via tcp://...**, to expose the Docker API-Server.
+. Go to **__Advanced__** and setup the available **CPU/Memory** as you intend to let Docker use.
+. Go to **__Daemon__** enable **Advanced Features** and replace the JSON with the following
+[source,json]
+{
+  "debug": false,
+  "experimental": false,
+  "selinux-enabled": false
+}
+
+### Setup WSL
+This section describes the setup of the Windows WSL environment, so that Docker can be used via the WSL.
+
+. Open a Powershell, execute ``bash`` and setup the Linux user
+. Execute ``sudo apt-get update``
+. Execute ``sudo apt-get install -y docker.io docker-compose`` to install Docker and Docker Compose.
+. Add ``export DOCKER_HOST=tcp://127.0.0.1:2375`` to ``~/.bashrc`` of your Linux user to point to Windows Docker-Daemon. +
+
+.Windows localhost is not WSL localhost
+[CAUTION]
+===============================
+If localhost is used within the WSL, then this points to the WSL loopback interface and not the Windows Host localhost. +
+Within the WSL 127.0.0.1 must be used to access services on the Windows localhost.
+===============================
+
+Now, all docker commands are executed on the remote Docker Host, which is actually located int he HyperV-VM. Windows users can now work with Docker in a
+Linux environment the same way as Linux user do.

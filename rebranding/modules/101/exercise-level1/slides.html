@@ -1,0 +1,237 @@
+<section>
+    <section>
+        <h2>Excercise<br>Level 1</h2>
+    </section>
+
+    <section>
+        <h2>What do we want to learn?</h2>
+        <img src='images/docker_example_simple.svg'></img>
+        <br>
+        <ul>
+            <li>How to write Dockerfiles</li>
+            <li>How to build Docker Images</li>
+            <li>How to use Docker Volumes</li>
+            <li>How to use Docker Containers</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>The Dockerfile</h2>
+        <div class='pre'>FROM library/alpine:3.6
+MAINTAINER ...
+RUN ...
+VOLUME ...
+ENV PREFIX "default"
+CMD "while true; do \
+       sleep 3s; \
+       COUNT=${COUNT:-1}; \
+       touch /work/${PREFIX}_${COUNT}; \
+       ls /work -lrta; \
+       COUNT=$((COUNT+1)); \
+     done"</div>
+        <br>
+        <ul>
+            <li>Create a Dockerfile for the application</li>
+            <li>We need a directory called <code>/work</code></li>
+            <li>We need a Docker Volume for the directory <code>/work</code></li>
+            <li>See: <a href='https://docs.docker.com/engine/reference/builder/'>https://docs.docker.com/engine/reference/builder</a></li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class='pre'>FROM library/alpine:3.6
+MAINTAINER Thomas Herzog &ltthomas.herzog@gepardec.com&gt
+
+LABEL name="Simple docker example" \
+      run="docker run -v &ltvolume-name&gt:/work &ltimage-name&gt"
+        
+RUN mkdir /work
+WORKDIR /work
+VOLUME /work
+ENV PREFIX "default"
+CMD ["/bin/sh", "-c", \
+     "while true; do \
+       sleep 1s; \
+       COUNT=${COUNT:-1}; \
+       touch /work/${PREFIX}_${COUNT}; \
+       ls /work -lrta; \
+       COUNT=$((COUNT+1)); \
+     done"]</div>
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>The Docker Image</h2>
+        <div class='pre'># Build the Docker Image
+docker image ...</div>
+        <br>
+        <ul>
+            <li>Build the Docker Image with the tag <b>simple:latest</b></li>
+            <li>Build it
+                <ul>
+                    <li>once within the directory with the Dockerfile </li>
+                    <li>and once with explicitly defining the Dockerfile to use</li>
+                </ul>
+            </li>
+            <li><a href="https://docs.docker.com/engine/reference/commandline/image_build">https://docs.docker.com/engine/reference/commandline/image_build/</a></li>           
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class='pre'>#!/bin/sh
+# Build the Docker Image
+# Build within the directory
+docker image build --tag simple:latest .
+
+# Build with explicit given Dockerfile
+docker image build --file $PWD/Dockerfile -t simple:latest $PWD</div> 
+        <aside class="notes">
+        </aside>
+    </section>
+    <section>
+        <h2>The Docker Volume</h2>
+        <div class="pre"># Create Docker Volumes
+docker volume ...</div>
+        <br>
+        <ul>
+            <li>Create the Docker Volumes with name <b>simple-1-vol</b> and <b>simple-2-vol</b></li>
+            <li>Each Docker Container shall have its own volume</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class='pre'>#!/bin/sh    
+
+# Create Docker Volume for first container
+docker volume create simple-1-vol
+
+# Create Docker Volume for second container
+docker volume create simple-2-vol</div> 
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>The Docker Container</h2>
+        <div class='pre'># 1. Create the Docker Containers
+docker container ...
+
+# 2. Start the Docker Containers
+docker container ...
+
+# 3. Show the Docker Containers logs
+docker container ...
+
+# 4. Stop Docker Containers
+docker container ...</div>
+        <br>
+        <ul>  
+            <li>Name Docker Containers "simple-1", "simple-2"</li>
+            <li><a href="https://docs.docker.com/engine/reference/commandline/container/">https://docs.docker.com/engine/reference/commandline/container/</a></li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class='pre'>#!/bin/sh   
+# 1. Create the Docker Containers
+docker container create \
+    --name simple-1 \
+    --volume simple-1-vol:/work \
+    --env PREFIX=simple-1 \
+    simple:latest
+docker container create \
+    --name simple-2 \
+    --volume simple-2-vol:/work \
+    --env PREFIX=simple-2 \
+    simple:latest
+
+# 2. Start the Docker Containers
+docker container start simple-1 simple-2
+
+# 3. Show Docker Containers logs
+sleep 5s
+docker container logs simple-1
+docker container logs simple-2
+
+# 4. Stop Docker Containers
+docker container stop simple-1 simple-2</div> 
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Some questions</h2>
+        <ul> 
+            <li>What happens if we assign the same Docker Volume to both Docker Containers with same <b>PREFIX</b> set?</li>
+            <li>What happens if we assign the same Docker Volume to both Docker Containers with different <b>PREFIX</b> set?</li>
+            <li>What happens if we don't define a container name?</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <ul>
+            <li>Both write files with the same name, one overwrites the other</li>
+            <li>Both write files with different names, so no problem</li>
+            <li>Then you have to use the hash value generated by Docker</li>        
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Cleanup</h2>
+        <div class="pre"># 1. delete the containers
+docker container ...
+
+# 2. delete the image
+docker image ...
+
+# 3. Delete the volumes
+docker volume ...</div>
+        <br>
+        <ul>
+            <li>Why is the order important?</li>
+            <li>Why are Docker Volumes not deleted automatically?</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>Solution</h2>
+        <div class='pre'>#!/bin/sh
+# 1. Delete Docker Containers with force
+docker container rm -f simple-1 simple-2
+
+# 2. Delete the Docker Image the Docker Containers where created from
+docker image rm simple
+
+# 3. Delete the Docker Volumes, used by the Docker Containers
+docker volume rm simple-1-vol simple-2-vol</div>
+        <br> 
+        <ul>
+            <li>We cannot delete resources, other depend on</li>
+            <li>Data is too important, therefore must be deleted manually</li>
+        </ul>       
+        <aside class="notes">
+        </aside>
+    </section>
+</section>

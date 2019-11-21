@@ -1,0 +1,205 @@
+<section>
+    <section>
+        <h2>Welcome</h2>
+    </section>
+
+    <section>
+        <h2>Why Docker</h2>
+        <img width=32% src='images/docker_on_host.svg'></img>
+        <img width=32% src='images/docker_on_cloud.svg'></img>
+        <br>
+        <ul>
+            <li>Reproducible, distributable, shareable and isolated applications</li>
+            <li>Runnable on multiple platforms (Local, VM, Kubernetes, Openshift, …​)</li>
+            <li>Useful in development/test environments</li>
+        </ul>       
+
+        <aside class="notes">
+        </aside>
+    </section>
+    
+    <section>
+        <h2>What if we use a VM?</h2>
+        <img src='images/vm_isolation_example.svg'></img>
+        <br>
+        <ul>
+            <li>Application processes are isolated by their own OS</li>
+            <li>Overhead due to full blown OS</li>
+            <li>Not easy to reproduce, distribute and provision</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section>
+
+    <section>
+        <h2>What if we use Docker?</h2>
+        <img src='images/docker_isolation_example.svg'></img>
+        <br>
+        <ul>
+            <li>Application processes running in isolated containers on same OS</li>
+            <li>One single OS for all applications</li>
+            <li>Easy to reproduce, distribute and provision</li>
+        </ul>
+
+        <aside class='notes'>
+        </aside>
+    </section>
+
+    <section>
+        <h2>What is Docker?</h2>
+        <img src='images/docker_hierarchy.svg'></img>
+        <br>
+        <ul>
+            <li>Tooling on top of LXC (Linux Containers)</li>
+            <li>Docker provides an application focus</li>
+            <li>Docker manages Docker Images and Docker Containers</li>
+            <li>LXC is the actual container technology!!!</li>
+        </ul>
+
+        <aside class='notes'>
+        </aside>
+    </section>
+
+    <section>
+        <h2>Docker Architecture</h2>
+        <img src='images/docker_architecture.svg'></img>
+        <br>
+        <ul>
+            <li><b>Docker Client:</b> Executes commands</li>
+            <li><b>Docker Host:</b> Runs the Docker Containers</li>
+            <li><b>Docker Registry:</b> Stores Docker Images</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section>  
+
+    <section>
+        <h2>Docker Engine</h2>
+        <img src='images/docker_engine.svg'></img>
+        <br>
+        <ul>
+            <li><b>Docker Daemon:</b> The main process</li>
+            <li><b>Docker REST-API:</b> Commands exposed via REST-API</li>
+            <li><b>Docker CLI:</b> Console wrapper for the REST-API</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section>  
+
+    <section>
+        <h2>Docker Machine</h2>
+        <img src='images/docker_machine.svg'></img>
+        <br>
+        <ul>
+            <li>Manage Docker Engines on remote Docker Hosts</li>
+            <li>Provision containers on remote Docker Hosts</li>
+            <li>Useful in clustered environments</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section>  
+
+    <section>
+        <h2>Union Filesystem</h2>
+        <img src='images/union_filesystem_base.svg'></img>
+        <br>
+        <ul>
+            <li>Layers of filesystem states</li>
+            <li>Layer contains changes to former layer</li>
+            <li>Each layer is immutable</li>
+            <li>Layers can be reused</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section>  
+
+    <section>
+        <h2>Docker Artefacts</h2>
+        <img src='images/docker_artefacts.svg'></img>
+        <br>
+        <ul>
+            <li><b>Docker Image:</b> The template for Docker Containers</li>
+            <li><b>Docker Container:</b> An instance of a Docker Image</li>
+            <li><b>Docker Volumes:</b> Abstraction of filesystems</li>
+            <li><b>Docker Networks:</b> Abstraction of networking</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section>  
+
+    <section>
+        <h2>Docker Image</h2>
+        <div class='pre'>FROM library/java:8-alpine
+MAINTAINER Thomas Herzog &ltthomas.herzog@gepardec.com&gt
+LABEL run="docker run --name &ltimage&gt -d"
+COPY ./app.jar ./app.jar
+PORT 8080
+CMD ["java", "-jar", "app.jar"]</div>
+        <br>
+        <ul>               
+            <li>A Dockerfile defines the Docker Image
+            <li>A description how to prepare the app environment
+            <li>Can be build on any Docker Host
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section> 
+
+    <section>
+        <h2>Docker Image Layers</h2>
+        <img src='images/union_filesystem_build_image.svg'></img>
+        <br>
+        <ul>
+            <li>Each layer is caused by a Dockerfile command</li>
+            <li>Layer contains file system changes or metadata</li>
+            <li>All layers are read only !!!!</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section> 
+
+    <section>
+        <h2>Docker Container</h2>
+        <img src='images/union_filesystem_running_container.svg'></img>
+        <br>
+        <ul>
+            <li>Is an instance of a Docker Image</li>
+            <li>The process running in the isolated environment</li>
+            <li>One writable layer for each Docker Container</li>
+            <li>Is just an ordinary process for the host</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section>  
+
+    <section>
+        <h2>Docker Volumes</h2>
+        <img src='images/docker_volumes.svg'></img>
+        <br>
+        <ul>
+            <li><b>Docker Volume:</b>
+                <ul>
+                    <li>Shareable among hosts,</li>
+                    <li>different storage drivers for remote storages</li>
+                </ul>
+            </li>
+            <li><b>Bind Volume:</b> Bind on host filesystem (not sharable)</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section> 
+
+    <section>
+        <h2>Docker Networks</h2>
+        <img src='images/docker_networks.svg'></img>
+        <br>
+        <ul>
+            <li>Keeps application processes within isolated networks</li>
+            <li>Easy to define and manage</li>
+            <li>Different network drivers are available (host, bridge, overlay,...)</li>
+        </ul>
+        <aside class="notes">
+        </aside>
+    </section> 
+
+</section>

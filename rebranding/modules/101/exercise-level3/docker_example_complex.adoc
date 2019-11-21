@@ -1,0 +1,210 @@
+= Docker Complex Example
+Thomas Herzog
+2018-11-09
+:author: Thomas Herzog
+:revnumber: {project-version}
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: ../../main/java]
+:title-slide-background-image: 70s.jpg
+:title-slide-transition: zoom
+:title-slide-transition-speed: fast
+:customcss: slides.css
+:source-highlighter: highlightjs
+
+== What do we want to learn?
+
+image:docker_example_complex.svg[title="Complex example",caption="Complex example",align=center]
+
+* How to use Docker Networks 
+* How to use the Docker Registry
+* How to connect Docker Containers in a network
+* How to Backup/Restore a Docker Container
+
+=== The example
+
+* The application is a simple __todo__ application
+* The __todo__ application needs these env vars: 
+** __DB_USER__, __DB_PASSWORD__
+** __DB_URL__=jdbc:mysql://host:port/db
+* The host running the Docker Container must have internet access
+* The MariaDb Docker Image: link:https://hub.docker.com/_/mariadb/[]
+* The database needs to be accessible when the __todo__ application starts
+
+=== Preparations
+
+* Create the directory *complex-example* for the sources
+* Copy the *app.jar* to that directory
+* Create a file named *commands.sh* and add all your commands there
+* Create a file named *Dockerfile* for defining the __todo-app__ environment
+
+== The Application Docker Image
+
+[source,bash]
+-----
+FROM library/java:8-alpine
+MAINTAINER ...
+LABEL ...
+RUN ...
+COPY ...
+CMD ["java", "-jar", "/work/app.jar", "java.net.preferIPv4Stack=true", "-Dswarm.bind.address=0.0.0.0"]
+-----
+
+* Define a *LABEL* describing how to use the Docker image
+* **RUN** a shell command to create directory ``/work``
+* **COPY** app.jar from the context in the directory ``/work``
+* Add the *CMD* of the snippet
+* Write the command for building the Docker Image with *tag* __todo-app:latest__
+
+=== Solution
+
+[source,bash]
+----
+include::./examples/complex/Dockerfile[]
+----
+[source,bash]
+----
+include::./examples/complex/commands.sh[tag=build]
+----
+
+== The Docker Volume
+
+[source, bash]
+-----
+# Create the Docker Volume
+docker volume ...
+-----
+
+* Write the command for creating the Docker Volume __todo-db-vol__
+* This is the volume keeping the database persistent
+
+=== Solution
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=volume]
+-----
+
+== The Docker Network
+
+[source, bash]
+-----
+# Create the Docker Network
+docker network ...
+-----
+
+* Write the command for creating the Docker Network __todo-net__
+* This is the network for the database and todo application
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=network]
+-----
+
+== Provision Docker Containers
+
+-----
+# 1. Create the Docker Containers
+docker container ...
+
+# 2. Start the Docker Containers
+docker container ...
+-----
+
+* Write the commands for creating the Docker Containers __todo-app__, __todo-db__
+* Write the command for starting the Docker Containers __todo-db__, __todo-app__
+* Access the application via link:http://localhost:8080[]
+* Create some todo entries
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=provision]
+-----
+
+== Some questions?
+
+* What happens if we don't add the __todo-app__ Docker Container to the Docker Network?
+* What happens if we don't publish the port of the __todo-app__?
+* What happens if we misconfigure one of the environment variables?
+
+=== Solution
+
+* Then __todo-app__ cannot connect to the database, because __todo-app__ is not in the network
+* Then we cannot access the __todo-app__ web view, because the port 8080 is not published
+* __todo-app__ cannot start or access the database, because parameters are missing or faulty?
+
+== Backup the database
+
+[source, bash]
+-----
+# 1. Stop the Docker Containers
+docker container ...
+
+# 2. Backup the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker container ...
+-----
+
+* Write the command for stopping the Docker Containers
+* Write the command for running a backup Docker Container
+* Write the command for starting the Docker Containers
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=backup]
+-----
+
+== Restore the database
+
+[source, bash]
+-----
+# 1. Stop the Docker Containers
+docker container ...
+
+# 2. Restore the database
+docker run ...
+
+# 3. Start the Docker Containers
+docker container ...
+-----
+
+* Write the command for stopping the Docker Containers
+* Write the command for running a restore Docker Container
+* Write the command for starting the Docker Containers
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=restore]
+-----
+
+== Cleanup
+[source, bash]
+-----
+# 1. Delete Delete the Docker Containers
+docker container ...
+
+# 2. Delete the Docker Image
+docker image ...
+
+# 3. Delete the Docker Network
+docker network ...
+
+# 3. Delete the Volume
+docker volume ...
+-----
+
+=== Solution
+
+[source, bash]
+-----
+include::./examples/complex/commands.sh[tag=cleanup]
+-----
