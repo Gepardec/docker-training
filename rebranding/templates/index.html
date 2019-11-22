@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Docker Present</title>
+
+        <meta name="description" content="Docker Present">
+        <meta name="author" content="Jerry Baker">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <!-- css -->
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="src/css/docker.css" id="theme">
+        <link rel="stylesheet" href="src/css/sd_custom.css">
+        <link rel="stylesheet" href="src/css/docker-code.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <img src="images/flecken.png" style="width: auto; height: 300px; position: fixed; bottom: 10px; right: -50px; z-index: -9999; opacity: 0.4;" alt="gepardec flecken">
+        <img src="images/GEPARDEC_logo_RGB_hellerhg.svg" style="width: auto; height: 50px; position: fixed; top: 30px; right: 30px; z-index: -9999;" alt="gepardec logo">
+        <p style="font-size:12px !important; z-index:10; color:rgb(0, 0, 0); position: fixed; bottom: 30px; left: calc(50% - 8em);"><i>#WECKDENGEPARDENINDIR</i></p><!--© 2019 // Gepardec IT Services GmbH-->
+		<!--img src="images/docker_logo_flat.png" style="width: 50px; height: auto; position: fixed; bottom: 30px; left: 30px; z-index: 9999;" alt="docker logo">-->
+        <div class="reveal">
+            <div class="slides">
+                ---modules---
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                menu: {
+                    themes: false,
+                    transitions: false,
+                },
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]/*,
+
+                // uncomment this block to make left/right advance slide and up/down advance chapter.
+                keyboard: {
+                    39: 'next',
+                    37: 'prev',
+                    38: 'left',
+                    40: 'right'
+                }
+                */
+            });
+
+        </script>
+
+    </body>
+</html>
